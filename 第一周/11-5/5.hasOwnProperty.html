@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* hasOwnProperty:检测某个属性是否属于对象本身，
+      1.返回值为布尔值，属于 =>true,不属于=>false
+       
+      2.用法:
+         for in的时候会枚举原型，会把自定义的属性或者方法枚举出来
+
+         查看某个属性或者方法是否为对象自身的（面向对象中）即查看某个属性是公有的还私有的
+
+         在for in的过程当中，如果不能确定构造函数的原型下是否有自定义的属性或者方法
+         那么建议加一个if判断，判断枚举的属性都是自身的
+     */
+        function Fruit(name,color){
+            this.name=name;
+            this.color=color
+        }
+        Fruit.prototype.size="big"
+        let f=new Fruit("apple","red")
+        console.log(f.hasOwnProperty("color"))//true
+        console.log(f.hasOwnProperty("size"))//false
+
+        let obj = {
+            name: "appple",
+            color: "red"
+        }
+        console.log(obj.hasOwnProperty("size")) //false
+        Object.prototype.size="big"
+        
+        for(let key in obj){
+            console.log(key)//name color size,将原型上的属性也列举出来了，但对象自己并没有size属性，无法准确判断对象循环次数
+        }
+
+        for(let key in obj){
+            if(obj.hasOwnProperty(key)){
+                console.log(key)//name color 
+            }
+        }
+
+    </script>
+</body>
+
+</html>

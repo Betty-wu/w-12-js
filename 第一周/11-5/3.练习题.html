@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 首先变量提升
+           function Foo(){}
+           var getName
+           function getName(){}
+           //getName变量名冲突，function getName覆盖var getName
+           var a,b,c
+           代码自上而下执行
+         */
+        function Foo() {
+            getName = function () {
+                console.log(1);
+            };
+            return this;
+        }
+        Foo.getName = function () {
+            console.log(2);
+        };
+        Foo.prototype.getName = function () {
+            console.log(3);
+        };
+        var getName = function () {
+            console.log(4);
+        };
+
+        function getName() {
+            console.log(5);
+        }
+
+        Foo.getName(); //2
+        getName(); //4
+        /* 变量提升阶段 function getName覆盖 var getName,但代码自上而下执行，getName重新赋值getName=function(){console.log(4)} */
+        Foo().getName(); //1
+        getName(); //1
+        /* Foo内的getName未被var或者let function，因此属于window，Foo执行将getName又重新赋值，getName=function(){console.log(1)} Foo()返回值this指向window，window.getName()输出1 */
+        var a = new Foo.getName(); //2   Foo.getName{}    构造函数下的getName的实例  //2
+        /* 先执行Foo.getName,输出2，再对Foo.getName进行new运算 a是Foo.getName的实例Foo.getName{} */
+
+        var b = new Foo().getName(); //{}.getName() 3  undefined
+        /* 先执行new Foo, =>let f= new Foo  => b=f.getName() ,f没有=> Foo.prototype.getName(),输出3，且getName没有返回值，因此b为函数运行结果undefined*/
+        var c = new new Foo().getName
+        /* 
+        先执行new Foo得到 Foo的实例 Foo{},再对Foo{}.getName进行new 运算，输出3，得到 Foo{}.getName的实例=>Foo{}.getName{}
+         */
+         console.log(a,b,c)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+     function Person() {
+        this.name = 'zhufeng'
+    };
+    Person.prototype.getName = function () {
+        console.log(this.name)
+        console.log(this.age)
+    };
+    Person.prototype.age = 5000;
+
+    var per1 = new Person;
+    per1.getName(); //zhufeng  5000
+    /* per1自身没有getName,通过per1.__proto__=>Person.prototype=>getName(),实例调用类原型prototype上的方法，那么方法中的this指向实例本身，实例per1.name="zhufeng",per1.age=>Person.prototype.age=>5000 */
+    per1.age = 9;
+    per1.getName(); //zhufeng  9
+    /* per1已新增age:9 */
+    console.log(per1.age); //9
+    var per2 = new Person;
+    console.log(per2.age);  //
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* new:是函数一元运算符，专门运算*函数*的
+          1.使用new会调用函数，如果函数不传参，函数后的小括号可以省略
+          2.函数new之后，函数中的this自动指向实例（空白对象）
+          3.且函数自动返回实例化对象
+          4.如果设置return返回值，返回值是基本数据类型，则仍返回实例，返回值是引用数据类型，return后的引用类型
+           */
+
+        function Person(name, age, sex) {
+            this.name = name;
+            this.age = age;
+            this.sex = sex;
+           // return 1
+           return []
+
+        }
+        let p =new Person("aa",11,"s")
+        console.log(p)// {name: "aa", age: 11, sex: "s"}     //[]
+    </script>
+</body>
+
+</html>

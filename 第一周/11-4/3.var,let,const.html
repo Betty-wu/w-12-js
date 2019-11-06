@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* var:
+       1.通过var创建的变量会进行变量提升（预解析）
+       2.会给window赋值；
+       3.不支持块级作用域
+       4.不会存储每次循环的值
+     */
+        console.log(a) //undefined
+        var a = 1
+        console.log(window.a) //1
+        {
+            var a = 1
+        }
+        /* let 
+         1.通过let创建的变量不会进行变量提升（不会预解析），在定义变量之前访问这个变量，访问的定义之前的空间称为暂存死区
+         2.不会给window赋值；
+         3.支持块级作用域
+         4.不能重复命名，不能声明同名的变量，函数，参数
+         5.会存储每次循环的值
+          */
+        // console.log(b)//报错 Uncaught ReferenceError: Cannot access 'b' before initialization
+        let b = 1
+        console.log(window.b) //undefined
+        let c = 1 
+        {
+            let c = 10;
+            console.log(c) //10
+        } {
+            let c = 20;
+            console.log(c) //20
+        }
+        console.log(c) //1 在块级作用域中let定义的变量属于块级私有变量，外界不能获取
+
+
+
+        /* 块套块，子块级中的函数只会在子块的作用域中变量提升，因此，在子块中的函数在未定义及变量提升之前，父块级及父块级之外不能访问 */
+            console.log(f)//undefined
+        {    console.log(f)//undefined
+            function fn(){console.log("qqq")}
+            console.log(f)//undefined
+            {
+                console.log(f)//  function f(){console.log("ppp")}
+                function f(){console.log("ppp")}
+            }
+            console.log(f)//  function f(){console.log("ppp")}
+        }
+        console.log(f)//  function f(){console.log("ppp")}
+
+
+
+       /*  console.log(fn) // function fn(){console.log("w")}
+        function fn() {//在全局作用域中提升
+            console.log("w")
+        } 
+        {   //在块级作用域中进行变量提升
+            console.log(fn) //function fn(){console.log("q")}
+            
+            function fn() {//
+                console.log("q")
+            }
+        }
+        console.log(fn) //变量名重复，进行覆盖 function fn(){ console.log("q")} */
+        
+        // let b=2 报错 Uncaught SyntaxError: Identifier 'b' has already been declared
+
+        /* const 常量（不可变的量）
+
+           1. 当声明一个变量，不允许改变的时候就使用const就定义
+
+           2.不能声明同名的变量、函数、参数
+
+           3.const box = document.getElementById('box');
+
+            注意:
+                const赋值的数据，它只会监控这个数据的地址. */
+    const obj = {
+        b:0
+    }
+    // obj = 10;
+    obj.b = 100;
+    console.log(obj);
+    </script>
+</body>
+
+</html>

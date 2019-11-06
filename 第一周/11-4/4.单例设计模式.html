@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* 单例模式：描述具体事物的个例
+    
+       构造函数：抽象一个类的封装过程
+     */
+    let person={name:"qq",age:12,sex:"man"}
+    let person={name:"pp",age:13,sex:'woman'}
+
+    /* 高级单例模式：
+          1.让当前这个实例功能更加强大，还可以隐藏或者暴露内部细节信息 
+          2.解决命名冲突
+           */
+    //匿名自执行函数，返回一个对象，外部接收这个对象
+    let obj2 = (function(){
+        let name = '珠峰';
+        let ip = '回龙观东大街';
+        let age = 0;
+
+        function sum(){
+            let age = 0;
+            for(let i=0;i<10;i++){
+                age ++
+            }
+            return age;
+        }
+        age = sum();
+
+        console.log(age);
+
+        return {
+            name:name,
+            ip:ip,
+            sum:sum
+        }
+    })();
+
+    let obj3 = (function(){
+        let age = 0;
+
+        function sum(){
+            console.log(1);
+        }
+        sum();
+        // age = sumfn();
+        console.log(obj2.sum());
+    })();
+    </script>
+</body>
+</html>

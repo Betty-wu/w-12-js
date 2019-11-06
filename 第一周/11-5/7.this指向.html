@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 1.window
+            全局打印this
+            函数 + 括号
+            定时器
+            (function(){})()
+
+        2.事件触发的元素
+            只要是事件函数内的this都指向事件触发的元素
+
+        3.点前面的主
+
+        4.实例
+            构造函数下的this是实例，构造函数原型的this也是实例(实例调用)
+
+        5.箭头函数
+            指向的是声明箭头函数的上下文this
+
+            没有arguments，不能new
+    */    
+   /*  document.onclick = fn();
+    function fn(){
+         console.log(this);//window
+     }
+
+     document.onclick = (function(){
+         console.log(this); //window 自执行函数this指向window
+         return function fn(){
+             console.log(this);//document
+        }
+   })();//=>document.onclick=function fn(){console.log(this)} */
+  /*  document.onclick = function(){
+        setTimeout(new fn,1000);
+         function fn(){
+             console.log(this);  //fn{} 报错 setTimeout必须运行函数，new fn是个对象，会先显示fn{} 1s中后报错
+        }
+    } */
+    
+    var name = '小强';
+     var obj = {
+         name:'zf',
+         getName:function(){
+             console.log(this.name);//window.name
+        }
+     }
+     setTimeout(obj.getName,1000);//=>setTimeout(function(){console.log(this.name)},1000)定时器中的this指向window '小强'
+
+    obj.getName();//'zf'
+    </script>
+</body>
+</html>

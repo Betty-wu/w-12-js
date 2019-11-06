@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+ /*        function f(){
+        console.log(1)
+    }
+    f();
+   
+    (function(){
+        function f(){
+            console.log(2)
+        }
+        f(); 
+    })(); */
+    function f(){
+        console.log(1)
+    }
+    let a=1
+    f();
+    (function(){
+        let a=2
+        function f(){
+            console.log(2)
+        }
+        f();
+    })()
+    //匿名自执行函数形成一个独立空间，在其内部定义的函数或者变量不会影响外部的同名的变量或者函数，避免变量冲突
+    </script>
+</body>
+
+</html>

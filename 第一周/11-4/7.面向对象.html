@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /*
+        面向对象是一种对现实世界理解和抽象的方法，是计算机发展到一定阶段后的产物
+
+
+        JS是一个基于面向对象思想（基于对象的）构建出来的编程语言
+
+        抽象:
+            抽出像的部分（把相同的代码抽离出来）
+
+
+        类  class
+
+        *** 换了一种写法去写代码 ***
+
+        为什么要用面向对象来编程？
+            通过对象来编程,扩展性更强，能够做到高内聚、低耦合
+
+        面向对象:
+            将具有相同特征特性的代码，抽离出来归为一类，然后把
+            描述这个类的细节特性（属性、方法）挂在这个类的原型下
+            的一种编程方式。
+
+
+        构造函数（类）    
+            老师:
+                给我讲东西的都叫老师
+
+            猫
+
+        实例
+            我: 你真胖js
+
+            波斯猫*/
+    /* 构造函数函数：归类，构造对象的函数 */
+     function person(name,age,sex){
+         let obj={}
+         obj.name=name;
+         obj.age=age;
+         obj.sex=sex;
+         console.log(this)
+         return obj
+     }
+     let p=person("aa",11,"m")//window
+     let p1 = new person("aa",11,"m")//对象本身
+     console.log(p)//{name: "aa", age: 11, sex: "m"}
+     console.log(p1)//{name: "aa", age: 11, sex: "m"}
+
+     
+    function Person(name,age,sex){
+       this.name=name;
+       this.age=age;
+       this.sex=sex;
+       /* this.say=function(){
+           console.log("my name is"+this.name)
+       } */
+    }
+    Person.prototype.say=function(){
+           console.log("my name is"+this.name)
+       } 
+    let p3=new Person("mm",11,"w")
+    p3.say()
+    let p4=new Person("ss",12,"m")
+    p4.say()
+    //console.log(p3.say==p4.say)//false
+    console.log(p3.say==p4.say)//true
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* 函数天生自带 prototype属性，它的值为一个对象
+    每个实例化对象都有__proto__属性，这个属性等于实例构造函数（类）的prototype
+    
+    */
+    function Fn(){
+
+    }
+    let f= new Fn
+    console.log(f.__proto__===Fn.prototype)//true
+    console.dir(f.say)//undefined
+
+    /* Obejct.prototype.__proto__ 为null，找到Obejct的原型下如果没有某个属性或者方法就真的没有了 */
+    </script>
+</body>
+</html>

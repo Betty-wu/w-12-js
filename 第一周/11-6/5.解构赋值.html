@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 解构赋值：本质上，这种写法属于“模式匹配”，只要等号两边的模式相同，左边的变量就会被赋予对应的值，如果解构失败，变量的值等于undefined。
+    1.[]=[]
+    2.{}={}
+    
+     */
+        //不完全解构，一一对应
+        // let [a, [b], d] = [1, [2, 3], 4];
+
+
+        //1.解构赋值允许指定默认值。只有当一个数组成员严格等于（===）undefined，默认值才会生效。
+        /* let [x = 1] = [undefined];
+        x // 1
+
+        let [x = 1] = [null]; 
+        x // null*/
+
+        /*     function f() {
+                console.log('aaa');
+            }
+
+           // let [x = f()] = [1];
+           //let [x = f()] = [];
+            //2.如果默认值是一个表达式，那么这个表达式是惰性求值的，即只有在用到的时候，才会求值。因为x能取到值，所以函数f根本不会执行,x取不到值时会执行函数
+            上面的代码其实等价于下面的代码。
+            if ([1][0] === undefined) {
+            x = f();
+        } else {//数组第一项为1，条件不成立，函数不执行，x=1
+            x = [1][0];
+        }
+             */
+
+        //3.默认值可以引用解构赋值的其他变量，但该变量必须已经声明。
+        /* let [x = 1, y = x] = []; // x=1; y=1
+        let [a = 1, b = a] = [2]; // a=2; b=2
+        let [c = 1, d= c] = [1, 2]; // x=1; y=2
+        let [e = f, f = 1] = [];//Uncaught ReferenceError: Cannot access 'f' before initialization f被使用时还未被声明 */
+
+        /* 对象解构赋值： */
+        //1.对象的属性没有次序，变量必须与属性同名，才能取到正确的值。
+        /* let {
+            bar,
+            foo
+        } = {
+            foo: 'aaa',
+            bar: 'bbb'
+        }; //"bbb"  "aaa"
+        //2.可以将现有对象的方法，赋值到某个变量
+        let {
+            max,
+            min,
+            floor
+        } = Math
+        console.log(max(1, 2, 3)) //3
+        let {
+            log,
+            dir
+        } = console
+        log(12) //12 */
+        //3.先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者。
+        /*   let {
+              foo: baz
+          } = {
+              foo: 'aaa',
+              bar: 'bbb'
+          };
+          baz // "aaa"
+          foo // error: foo is not defined
+          //foo是匹配的模式，baz才是变量。真正被赋值的是变量baz，而不是模式foo。
+          let obj = {};
+          let arr = [];
+
+          ({
+              foo: obj.prop,
+              bar: arr[0]
+          } = {
+              foo: 123,
+              bar: true
+          });
+
+          obj // {prop:123}
+          arr // [true] */
+        //4.对象的解构赋值可以取到继承的属性。
+        /* const obj1 = {};
+        const obj2 = {
+            foo: 'bar'
+        };
+       console.log(Object.setPrototypeOf(obj1, obj2))//{}
+       console.log(obj1.__proto__)//{foo: "bar"}
+        const {
+            foo
+        } = obj1;
+        foo // "bar" */
+        //5.由于数组本质是特殊的对象，因此可以对数组进行对象属性的解构。
+        let arr = [1, 2, 3];
+        let {
+            0: first,
+            [arr.length - 1]: last
+        } = arr;
+        first // 1
+        last // 3对象的属性名与数组的索引相对应
+    </script>
+</body>
+
+</html>

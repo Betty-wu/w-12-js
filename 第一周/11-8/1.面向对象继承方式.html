@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /*1. 原型继承：通过类Anew出来的实例覆盖了B的默认原型的空间地址，那么通过类B创建的实例既可以使用类A实例的私有属性，也可以调用类A原型上的公有属性；类继承了类A公有和私有属性，这种继承方式就是原型继承； */
+    let {log}=console
+    function A(){
+        this.name="apple";
+        this.price=10;
+        this.size=function(){
+            log("big")
+        }
+    }
+    A.prototype.color=function(){
+        log("red")
+    }
+   
+    function B(){
+        this.name="orange"
+    }
+    
+    function C(){
+
+    }
+    /* C.prototype=A.prototype;
+    B.prototype=new C 这种方式B的实例也可以用A的公有属性和私有属性，性能更优化一些*/
+    B.prototype=new A //这种方式B的实例既可以用A的公有属性，又可以用A的私有属性
+
+    let b=new B
+    log(b.price)//10
+    b.color()//red
+    log(b.constructor)//类A
+
+    /*2.中间类继承
+    函数的arguments是个类数组集合，将arguments的__proto__指向从object变成数组的原型，就可以使用数组的方法了 *注意：在IE10及以下，不兼容；
+     */
+
+    function sum(...arg){
+        log(arguments.__proto__)//Object
+        arguments.__proto__=Array.prototype;
+        arguments.push(12)
+        log(arguments)//[[1,2,3],12]
+    }
+    sum([1,2,3])
+
+    /* 3.call继承：类D继承了类E的私有属性;不能使用类E的公有属性；所有类D创建的实例，都可以使用类E的私有属性； */
+    function E(name,color){
+        log(this)//D{}D的实例
+        this.name=name;
+        this.color=color
+    }
+    E.prototype.wind=function(){
+        log("warm")
+    }
+    function D(name,color){
+        E.call(this,name,color)
+        this.friend="summer" 
+    }
+    let d= new D("spring","green")
+    log(d)//{name: "spring", color: "green", friend: "summer"} 继承了类D的私有属性
+   // d.wind()//报错：d.wind is not a function未继承E.prototype的方法
+    log(d.constructor)//类D
+    /* 4.寄生组合继承：G通过call方法继承F私有属性，通过Object.create或者Object.assign方法继承F公有属性 */
+
+    /* Object.create : 创建一个空对象；让当前空对象中__proto__指向了Object.create这个方法第一个实参； 
+       Object.assign(target, ...sources):
+    用来 将源对象（source）的所有可枚举属性，复制到目标对象（target）。它至少需要两个对象作为参数，第一个参数是目标对象，后面的参数都是源对象。只要有一个参数不是对象，就会抛出TypeError错
+    */
+    function F(name,age){
+      this.name=name;
+      this.age=age
+    }
+    F.prototype.say=function(){
+        log(this.name+"今年"+this.age+"岁了")
+    }
+    function G(name,age){
+        F.call(this,name,age)
+    }
+    //G.prototype=Object.create(F.prototype)
+      G.prototype=Object.assign(F.prototype)
+    let g=new G("tree",100)
+    log(g)//G{name: "tree", age: 100}
+    g.say()//tree今年100岁了
+    </script>
+</body>
+</html>

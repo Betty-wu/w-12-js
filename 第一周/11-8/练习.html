@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+            // console.log(name);
+            console.log('此处会有一万行代码');
+        }
+        Person.prototype.say = function () {
+            alert(`我的名字叫` + this.name);
+        }
+        Person.prototype.play=function(){
+            console.log("mmm")
+        }
+        function Police(name, age) {
+            Person.call(this, name, age);
+        }
+
+        function Paohui(){}
+        Paohui.prototype = Person.prototype;
+        Police.prototype = new Paohui;//通过Paohui来中转，Person少执行一次，性能更优化
+
+        Police.prototype = new Paohui; //new Paohui;
+        //Police.prototype = new Person//
+        Police.prototype.constructor = Police;
+        
+        // Police.prototype.say = function(){
+        //     alert(`我是警察`+this.name);
+        // }
+        Police.prototype.kongfu = function () {
+            console.log(this.name + '弄某炎');
+        }
+
+        let p2 = new Police('赵炎', 100);
+        let p1 = new Person('刘成', 19);
+         p2.play()
+        console.log(p2.constructor);
+
+        // p2.say();
+        // p1.say();
+
+        // console.log(p2);
+    </script>
+</body>
+
+</html>

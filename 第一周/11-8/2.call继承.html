@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let {
+            log
+        } = console;
+        class A {
+            static play() {
+                log('ball')
+                /* 通过class中的static 可以创建静态方法，只有类才能调用，实例是调用不到的
+                就算是继承，也只能是继承子类去调用，子类的实例是调用不到的 */
+            }
+            constructor(name, age) {
+                this.name = name;
+                this.age = age
+            }
+            say() {
+                log(this.name)
+            }
+        }
+        class B extends A {
+            constructor(name, age) {
+                super(name, age)
+                /* 在继承的类中使用this必须调用super方法，在super执行前，子类中拿不到this */
+            }
+        }
+        let b = new B("spring", "unknown")
+        log(b) //B {name: "spring", age: "unknown"}
+        b.say() //spring
+        A.play()//ball
+        B.play()//ball
+    </script>
+</body>
+
+</html>

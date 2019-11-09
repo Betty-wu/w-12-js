@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //浅拷贝：基本数据类型值不变，引用数据类型，一个变了，另一个也变，Object.assign(),Object.create() 剩余运算符...  
+        let {
+            log,
+            dir
+        } = console
+        let ary = [1, 2, 3, [4, 5]]
+        /* let ary1=[...ary];
+        log(ary1)//[1,2,3[4,5]]
+        ary1[3].push(6)  
+        log(ary) //[1,2,3,[4,5,6]] */
+        let ary2 = Object.assign(ary)
+        log(ary2) //[1,2,3,[4,5]]
+        ary2[3].pop()
+        log(ary) //[1,2,3,[4]]
+        let obj = {
+            name: "apple",
+            background: {
+                color: "red"
+            }
+        }
+        let obj1 = {
+            ...obj
+        }
+        log(obj1) //{name: "apple", background: {color:"red"}}
+        obj1[name] = "orange";
+        obj1.background.color = "yellow"
+        log(obj) //{name:"apple",background:{color:"orange"}}
+
+        let obje = {
+            name: "spring",
+            background: {
+                color: "green"
+            }
+        }
+        let obje2 = Object.assign(obje)
+        log(obje2) //{name:"spring",background:{color:"green"}}
+        obje2.background.color = "pink";
+        log(obje) //{name:"spring",background:{color:"pink"}}
+
+        //深拷贝
+        let ary = [1, 2, 3, [1, 2, 3, {
+            name: [1, 2, 3]
+        }]];
+
+        //深度克隆
+        function deepclone(obj) {
+            //看看obj是不是一个对象，不是对象就不执行deepclone
+            if (typeof obj !== 'object' && obj !== null) return null;
+            // let o = Array.isArray(obj)?[]:{};
+            let o = obj.push ? [] : {}; //确认传进来的值到底是数组还是对象
+            for (let attr in obj) {
+                //如果碰到了引用类型就继续循环，原始类型才赋值
+                if (typeof obj[attr] === 'object') {
+                    o[attr] = deepclone(obj[attr]);
+                } else {
+                    o[attr] = obj[attr];
+                }
+            }
+            return o;
+        }
+        let ary2 = deepclone(ary);
+        ary2[3][0][0][0][0][0][0][0][0][0].push(4);
+        console.log(ary2);
+        //JSON.parse(JSON.stringify(ary))
+    </script>
+</body>
+
+</html>

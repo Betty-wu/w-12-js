@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* 
+    1.请你把下列字符串中的数字挑出来，存到一个数组中
+
+    2.请你把下列字符串中数组包括连续的数字挑出来，存到一个数组中
+     */
+     let {log,dir}=console;
+     let str = 'xh271y5rc74 326rgb087yr23n6x832321';
+     let ary=[];
+     /*1. for(let i=0;i<str.length;i++){
+         if(!isNaN(parseInt(str[i]))){
+             ary.push(str[i])
+         }
+     }
+    log(ary) */
+    let temp='';
+    for(let i=0;i<str.length;i++){
+        //如果是数字就进行拼接
+        if(!isNaN(parseInt(str[i]))){
+           temp+=str[i];
+         }else{
+        //当循环到不是数字的字符时，temp不进行拼接，把拼接好的temppush到数组中，并且把temp清空，以便循环下一组数字时进行分组拼接使用     
+             if(temp){
+                 ary.push(temp);
+                 temp="";
+             }
+         }
+    }
+    //当循环到最后一次时，temp不是空字符串，说明str最后几项为数字（for循环是数字后面为非数字才进行push），需要把push进数组的字符串push到数组中
+    if(temp){//保证temp不是空字符串
+        ary.push(temp);
+        temp=''
+    }
+    log(ary)
+ /* 
+    Number()、parseInt() 和 parseFloat() 的区别
+一：Number()
+如果是Boolean值，true和false值将分别被转换为1和0。
+如果是数字值，只是简单的传入和返回。
+如果是null值，返回0。
+如果是undefined，返回NaN。
+如果是字符串：
+　a.  如果字符串中只包含数字时，将其转换为数字，忽略前导0
+
+　b. 如果字符串中包含有效小数点，如“1.1”，将其转换为对应的数字，忽略前导0
+
+　c. 如果字符串为空，将其转换为0
+
+　d. 如果字符串中包含除上述格式之外的字符，则将其转换为NaN
+
+二：parseInt()(取整数)
+　　处理整数的时候parseInt()更常用。parseInt()函数在转换字符串时，会忽略字符串前面的空格，直到找到第一个非空格字符。
+
+　　如果第一个字符不是数字或者负号，parseInt() 就会返回NaN，同样的，用parseInt() 转换空字符串也会返回NaN。
+
+　　如果第一个字符是数字字符，parseInt() 会继续解析第二个字符，直到解析完所有后续字符串或者遇到了一个非数字字符。
+
+
+三：parseFloat()(取整数和小数)
+　　与parseInt() 函数类似，parseFloat() 也是从第一个字符（位置0）开始解析每一个字符。也是一直解析到字符串末尾，或者解析到遇见一个无效的浮点数字字符为止。
+
+　　也就是说，字符串中第一个小数点是有效的，而第二个小数点就是无效的了，它后面的字符串将被忽略。
+
+　　如果字符串中包含的是一个可解析为正数的数（没有小数点，或者小数点后都是零），parseFloat() 会返回整数。
+
+parseInt() 和parseFloat() 的区别在于：
+parseFloat() 所解析的字符串中第一个小数点是有效的，而parseInt() 遇到小数点会停止解析，因为小数点并不是有效的数字字符。
+parseFloat() 始终会忽略前导的零，十六进制格式的字符串始终会被转换成0，而parseInt() 第二个参数可以设置基数，按照这个基数的进制来转换。
+     */
+/* 　　　　var num1 = parseFloat("123AF");　　　　　　 　　　　//123
+　　　　var num2 = parseFloat("0xA");　　　　　　　　　　　　//0
+　　　　var num3 = parseFloat("22.5");　　　　　　　 　　　 //22.5
+　　　　var num4 = parseFloat("22.3.56");　　　　　　　　　//22.3
+　　　　var num5 = parseFloat("0908.5");　　　　　　　　　 //908.5 */
+      log(parseInt("12.3"))//12
+      log(parseInt("12qwe"))//12
+      log(parseInt("qwe12.3"))//NaN
+      log(parseInt(""))//NaN
+      log(Number(""))//0
+      log(Number({}))//NaN
+      log(Number("123qwe"))//NaN
+      log(Number("123"))//123
+      log(Number("12.12.13"))//NaN
+      log(Number("0012.3"))//12.3
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /*  2019年11月12日
+        2019/11/12
+        2019-11-12
+        2019-_-!~11_-__-_^_^!12
+        
+        把下面三种格式改成上面第一种格式
+         */
+    let str='2019/11/12';
+    let s=str.replace(/((\d)+)\D+(\d+)\D+(\d+)/g,(a,b,c,d,e)=>{
+       console.log(a,b,c,d,e)//2019/11/12 2019 9 11 
+       /* 如果正则有分组，那么回调函数中的：
+        第一个参数：需匹配的字符串；
+        第二个参数：为第一个分组中匹配到的字符；
+        第二个参数以后都为分组项，之后有几个分组，参数就是分组项，直到分组读完就正常走索引、整个字符串、undefine
+         分组:
+            ()
+            从左往数
+        (((\d+))(((\D)+))((\d+)))    8个分组
+
+        如果分组的括号后面有量词，那么分组项为匹配到的字符的最后一个字符
+        */
+       return b+"年"+d+"月"+e+"日"
+    })
+    console.log(s)//2019年11月12日
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="txt">
+    <button id="btn">发送</button>
+    <ul id="box"></ul>
+    <script>
+     let txt=document.getElementById("txt");
+     let btn=document.getElementById("btn");
+     let box=document.getElementById("box");
+     btn.onclick=function(){
+         let {value}=txt;
+         let init=value;
+         let li=document.createElement("li");
+         let span=document.createElement("span");
+         let btns=document.createElement("button");
+         btns.innerText="反河蟹";
+         btns.onclick=function(){
+             span.innerText=init;
+         }
+         let sql = ['卧槽','艹','羊驼'];
+         let str = '*%$#@^!';
+         let reg=new RegExp(sql.join('|'),"g")
+        value= value.replace(reg,($0)=>{
+             let temp='';
+             for(let i=0;i<$0.length;i++){
+                 temp+=str[Math.round(Math.random()*(str.length-1))]
+             }
+             return temp;
+         })
+         span.innerText=value;
+         li.appendChild(span);
+         li.appendChild(btns);
+         box.insertBefore(li,box.children[0]);
+         txt.value='';
+     }
+    
+    </script>
+</body>
+</html>

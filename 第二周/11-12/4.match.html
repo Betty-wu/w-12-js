@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* string.match(/正则/) 
+            是字符串的方法，找到正则匹配的字符并且把它们放到数组中（返回值是数组）
+    */
+    let str="1m234mrMio90sd790lk";
+    console.log(str.match(/\d+/g))//["1", "234", "90", "790"]
+    console.log(/\d+/g.exec(str))//["1", index: 0, input: "1m234mrMio90sd790lk", groups: undefined]
+    /* string.match()可以进行全局捕获，exec不进行全局捕获 ,非全局捕获时string.match()和//.exec()返回结果一样，*/
+    console.log(str.match(/m/ig))//["m", "m", "M"]
+    
+    
+    </script>
+</body>
+</html>

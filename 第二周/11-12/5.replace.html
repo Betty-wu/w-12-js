@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* string.replace(被替换字符或者正则，替换字符或者回调函数) */
+    
+    let {log}=console;
+    let str="1234567好好学习，1234567天天向上"
+    log(str.replace("好好","天天"))//1234567天天学习，1234567天天向上
+    log(str.replace(/\d+/g,"我要"))//我要好好学习，我要天天向上
+
+    //过滤敏感词
+  /*  replace的细节:
+            *默认*情况下，函数的
+                第一个参数是每次匹配字符
+                第二个参数是匹配字符索引
+                第三个参数是整个字符串
+                第四个参数是undefined
+
+            如果有分组
+              
+                第一个参数是每次匹配字符
+                第二个参数是第一个分组，
+                之后有几个分组，参数就是分组项
+                直到分组读完就正常走索引、整个字符串、undefined
+
+        分组:
+            ()
+            从左往数
+
+        (((\d+))(((\D)+))((\d+)))    8个分组
+
+        如果分组的括号后面有量词，那么分组项为最后一个字符
+        
+    */
+
+    let str1="冉某和某磊见不得光的新鲜事";
+    
+    let s=str1.replace(/冉某|某磊|不得光/g,($0)=>{
+        log($0)//冉某 某磊 不得光
+        let temp='';
+        for(let i=0;i<$0.length;i++){
+            temp+="*"
+        }
+        return temp
+    })
+    log(s)//**和**见***的新鲜事
+    </script>
+</body>
+</html>

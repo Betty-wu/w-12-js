@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* 
+    正则表达式:
+            1.专门用来检索字符串的一种规则（更擅长处理模糊范围的字符串）
+            2.对象数据类型
+     难点:
+                1.规则 -> 规律，现象（需要大家去总结）        
+     容易点:
+                没有逻辑，只有记背  
+     写法： 1.字面量写法 / /
+
+            2.new RegExp(规则(可以是字符串，也可以进行字符串拼接，亦可以是变量),修饰符)       
+     */
+    let {log}=console;
+    let str ="123";
+    let a="12";
+    log(/a/) // /a/,在字面量写法中，正则中放的就是规则或者是不带引号的字符，不支持变量，在此处a就是"a",而不是a的变量
+
+    log(new RegExp(a)) // /12/在实例写法中，此处a代表的就是"12"
+    
+    //   \ ：转义字符   把正则中有特殊含义的字符 转成字符本身(不再有任何特殊的含义),转义符转的是\后面的字符
+    //let str1="1234\"报错Uncaught SyntaxError: Invalid or unexpected token 未捕获的语法错误：无效或意外的标记
+    log('123\\') //123\
+
+  /*   特殊转义符:
+            \d  一个0-9的数字
+
+        量词:
+            +  至少出现1次，最多不限
+
+        修饰符:
+            g -> global 全局查找 */
+    </script>
+</body>
+</html>

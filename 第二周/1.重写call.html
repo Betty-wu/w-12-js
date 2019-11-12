@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <script>
+  /*  核心:
+        只要让一个函数地址，等于某个对象下的方法,this自然就变成了那个对象. */
+   
+   Function.prototype.myCall=function(that,...arg){
+      let type=typeof that;
+      if(that===null||that===undefined){
+          that=window;
+      }else{
+          switch(type){
+              case "string":
+              that=new String(that);
+              break;
+              case "boolean":
+              that=new Boolean(that);
+              break;
+              case "number":
+              that=new Number(that);
+              break;
+          }
+      }
+      that.fn=this;
+      that.fn(...arg)
+   }
+   function fn(a,b){
+       delete this.fn
+       console.log(a+b);
+       console.log(this)
+   }
+  fn.myCall('123',1,2)
+   </script> 
+</body>
+</html>

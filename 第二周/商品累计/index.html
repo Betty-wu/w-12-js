@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		body,
+		ul,
+		li {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			font-size: 13px;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="price.css" />
+</head>
+
+<body onselectstart="return false;">
+	<div class="wrap">
+		<div class="box">
+			<ul id="list">
+				<li>
+					<i></i>
+					<em>0</em>
+					<i></i>
+					<span>
+						单价：<strong>12.5元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+				<li>
+					<i></i>
+					<em>0</em>
+					<i></i>
+					<span>
+						单价：<strong>10.5元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+				<li>
+					<i></i>
+					<em>0</em>
+					<i></i>
+					<span>
+						单价：<strong>8.5元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+				<li>
+					<i></i>
+					<em>0</em>
+					<i></i>
+					<span>
+						单价：<strong>8元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+				<li>
+					<i></i>
+					<em>0</em>
+					<i></i>
+					<span>
+						单价：<strong>14.5元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+			</ul>
+			<div id="info">
+				<span>商品公合计：<em>0</em>件</span>
+				<span>共花费了：<em>0</em>元</span>
+				<br />
+				<br />
+				<span>其中最贵的商品单价是：<em>0</em>元</span>
+			</div>
+		</div>
+	</div>
+	<script>
+		let {
+			log
+		} = console
+
+		function Shop(id) {
+			this.box = document.getElementById(id);
+			this.menu = this.box.querySelectorAll("li");
+			this.statis=this.box.querySelectorAll("span");
+			this.info=document.getElementById("info");
+			this.gross=this.info.querySelectorAll("em");
+			//console.log(this.statis)
+			this.reducer=[];
+			this.addition=[];
+			this.number=[];
+			this.price=[];
+			this. initValue=[];
+			this.num=[];
+			this. ary=[]
+			this.menu.forEach((item, index) => {
+				this.reducer.push(item.children[0]);
+				this.addition.push(item.children[2]) ;
+				this.number.push(item.children[1]);
+			})
+            log(this. ary)
+			this.statis.forEach((item)=>{
+				this.initValue.push(0)
+				this.price.push(parseFloat(item.children[0].innerHTML) )
+				this.num.push((item.children[1]))
+			})
+			
+		}
+		Shop.prototype.events=function(){
+	         let that=this
+			this.reducer.forEach((item,index)=>{
+				item.onclick=function(){				
+					that.reduce(index)
+				}
+			})
+		  this.addition.forEach((item,index)=>{
+			  item.onclick=function(){		
+				 that.add(index)
+			  }
+		  })
+		  }
+
+		Shop.prototype.reduce=function(i){
+			if(this.initValue[i]>0){
+				this.initValue[i]--
+			}
+			this.number[i].innerHTML=this.initValue[i]
+			this.num[i].innerHTML=this.price[i]*this.initValue[i]+"元";
+			
+			let val2=0;
+			let val4=0;
+			this.ary.splice(i,1)
+			log(this.ary)
+			for(let i=0;i<this.menu.length;i++){
+				val2+=parseFloat(this.number[i].innerHTML)
+				val4+=parseFloat(this.num[i].innerHTML)
+			}
+			this.gross[0].innerHTML=val2;
+			this.gross[1].innerHTML=val4;	
+			this.gross[2].innerHTML=Math.max(...this.ary)		
+		}
+		Shop.prototype.add=function(i){
+			this.initValue[i]++;
+			this.number[i].innerHTML=this.initValue[i]
+			this.num[i].innerHTML=this.price[i]*this.initValue[i]+"元";
+			let val1=0;
+			let val3=0;
+			this.ary.push(this.price[i])
+			for(let i=0;i<this.menu.length;i++){
+				
+				val1+=parseFloat(this.number[i].innerHTML);
+				val3+=parseFloat(this.num[i].innerHTML);
+			}
+		this.ary=this.ary.filter((item,index,self)=>{
+                 return self.indexOf(item)===index;
+			})
+			log(this.ary)
+			this.gross[0].innerHTML=val1;
+			this.gross[1].innerHTML=val3;
+			this.gross[2].innerHTML=Math.max(...this.ary)
+		}
+		
+		
+	let f=	new Shop("list")
+	f.events()
+	
+	</script>
+</body>
+
+</html>

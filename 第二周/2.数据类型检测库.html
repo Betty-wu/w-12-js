@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    class Tools{
+        static type(data){
+          if(typeof data!=="object"){
+              return typeof data
+          }
+          let obj={
+              object:"Object",
+              array:"Array",
+              null:"Null"
+          }
+          let toS=Object.prototype.toString;
+          for(let attr in obj){
+              if(toS.call(obj[attr]===`[Object ${obj[attr]}]`)){
+                  return attr
+              }
+          }
+        }
+    }
+    
+    console.log(Tools.type({}))
+    
+    </script>
+</body>
+</html>

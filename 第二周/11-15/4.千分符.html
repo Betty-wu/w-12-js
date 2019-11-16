@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let {
+            log,
+            dir
+        } = console;
+        let str = "12345678900    ";
+     /*    let temp = '';
+        let num = 0;
+        for (let i = str.length - 1; i >= 0; i--) {
+            if ((temp.length - num) % 3) {
+                temp += str[i];
+            } else {
+                console.log(str[i])
+                temp += ',' + str[i];
+                num++;
+            }
+        }
+        log(temp);
+        temp = temp[0] === ',' ? temp.substring(1) : temp;
+        temp = temp.substring(1);
+        log(temp)
+        temp = temp.split('').reverse().join('');
+        log(temp); */
+        
+        let reg = new RegExp(/(\d{1,3})(?=(\d{3})+$)/,"g")
+        //log(reg.test(str))
+        let s = str.replace(reg,function($0){
+            log($0)//12 345 678
+            return $0+","
+        })
+        log(s) //12,345,678,900
+
+       let str1 = "1239088334673"
+       log(str1.match(reg).join())//1,239,088,334
+
+       console.log('4567123'.match(/(\d)(?=(\d{3})+$)/g));
+        
+   /* // 前瞻：
+      exp1(?=exp2) 查找exp2前面的exp1
+    // 后顾：
+      (?<=exp2)exp1 查找exp2后面的exp1
+    // 负前瞻：
+      exp1(?!exp2) 查找后面不是exp2的exp1
+    // 负后顾：
+      (?<!exp2)exp1 查找前面不是exp2的exp1
+     */
+
+    </script>
+</body>
+
+</html>

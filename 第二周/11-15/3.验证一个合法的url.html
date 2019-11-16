@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*   
+        
+          把url中的key和value存到对象中
+          验证一个合法的url
+
+         */
+
+        let str = 'https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=js';
+        ////queryURLParams
+        let re = /([a-z]\w{0,10})=([\w=%-]+)&?/g
+        let obj = {};
+        str.replace(re, (...arg) => {
+            obj[arg[1]] = arg[2];
+        });
+        console.log(obj);
+
+    </script>
+</body>
+
+</html>

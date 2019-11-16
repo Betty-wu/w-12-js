@@ -26,9 +26,9 @@
          }
          let sql = ['卧槽','艹','羊驼'];
          let str = '*%$#@^!';
-         let reg=new RegExp(sql.join('|'),"g")
+         let reg=new RegExp(sql.join('|'),"g");//这里|为或者的意思
         value= value.replace(reg,($0)=>{
-             let temp='';
+             let temp='';//replace中的回调函数，匹配到几次就执行几次
              for(let i=0;i<$0.length;i++){
                  temp+=str[Math.round(Math.random()*(str.length-1))]
              }

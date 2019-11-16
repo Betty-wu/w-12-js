@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* 
+      \数字  数字代表的是一个子项，这个\数字，一定是和子项内容一致的
+      注意:重复子项只能用在匹配子项之后
+     */
+     let {log,dir} = console;
+   
+     let str = 'acbc';
+     /* 匹配acbc */
+     str.replace(/(a)(c)(b)\2/,function($0,$1,$2,$3,$4,$5,$6,$7){
+            console.log($0,$1,$2,$3,$4,$5,$6,$7);
+
+            //acbc a c b 0 acbc undefined undefined
+        });
+    
+    </script>
+</body>
+</html>

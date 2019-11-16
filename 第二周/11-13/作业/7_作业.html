@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+       把下面str的name，age，say换成obj中的value值
+    */
+        let obj = {
+            name: '小明',
+            age: 18,
+            say: '好好学习，天天向上'
+        }
+        let str = '我的名字叫{name},年龄是{age}岁,我想说:{say}';
+
+        let {
+            log
+        } = console;
+        let str1 = str.replace(/{\w{3,4}}/g, function ($0) {
+            for (let attr in obj) {
+                if ($0 === "{" + attr + "}") {
+                    return obj[attr]
+                }
+            }
+        })
+        str = str1;
+        log(str) //我的名字叫小明,年龄是18岁,我想说:好好学习，天天向上
+
+        /*
+            计算下面字符串中哪个字符出现的次数最多,它是谁，出现了多少次
+        */
+        let str2 = 'hd82nxa89a3axdma2naejaaxaa8n2xdanja2cah2hnadhioamwajexnad8mdahiodn';
+        let str3 = '1qwertqwerfsssfffssssssss'
+
+        function len(str) {
+            let obj = {}
+            for (var i = 0; i < str.length; i++) {
+                let reg = new RegExp(str[i], "g");
+                let w = str.match(reg)
+                obj[str[i]] = w
+            }
+            //log(obj)
+            let obj1 = obj;
+            let ary = [];
+            let maxl;
+            for (let key in obj) {
+                if (ary.indexOf(obj[key].length === -1)) ary.push(obj[key].length)
+            }
+            maxl = Math.max(...ary)
+            for (let key in obj1) {
+                if (obj1[key].length === maxl) {
+                    return key + ":" + Math.max(...ary)
+                }
+            }
+        }
+        log(len(str2)) //a:17
+        log(len(str3)) //s:11
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let {
+            log
+        } = console;
+        /*
+       把下面str的name，age，say换成obj中的value值
+    */
+        /*   let obj = {
+            name: '小明',
+            age: 18,
+            say: '好好学习，天天向上'
+        }
+        let str = '我的名字叫{name},年龄是{age}岁,我想说:{say}';
+
+      
+        let str1 = str.replace(/{(\w+)}/g, function (...arg) {
+           let [,key] = arg;
+           return obj[key]
+        })
+        str = str1;
+        log(str) //我的名字叫小明,年龄是18岁,我想说:好好学习，天天向上
+ */
+        /*
+            计算下面字符串中哪个字符出现的次数最多,它是谁，出现了多少次
+        */
+        let str2 = 'hd82nxa89a3axdma2naejaaxaa8n2xdanja2cah2hnadhioamwajexnad8mdahiodn';
+        let str3 = '1qwertqwerfsssfffssssssss'
+
+        let obj = {}
+        let ary = []
+        for (var i = 0; i < str2.length; i++) {
+            if (!ary.includes(str2[i])) {
+                let reg = new RegExp(str2[i], "g");
+                let w = str2.match(reg)
+                obj[w.length] = str2[i]
+                ary.push(str2[i])
+                //对象属性名为数字时，属性名会按照从小到大的顺序排列
+            } else {
+                continue;
+            }
+        }
+        log(obj)
+        let key = Object.keys(obj); //可以把对象的key拿出来，是个数组
+        let value = Object.values(obj)//可以把对象的value拿出来，是个数组
+        console.log( key[key.length-1],val[val.length-1]);
+
+    </script>
+</body>
+
+</html>

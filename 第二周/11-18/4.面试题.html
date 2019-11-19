@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.
+        console.log(a);
+        var a = 12;
+
+        function a() {
+            console.log(a);
+            a = 13;
+        }
+        a();
+        console.log(a);
+
+
+        //2.
+        var n = 0;
+
+        function a() {
+            var n = 10;
+
+            function b() {
+                n++;
+                console.log(n);
+            }
+            b();
+            return b;
+        }
+        var c = a();
+        c();
+        console.log(n);
+
+
+        //3.
+        var a1 = 4,
+            a2 = [1, 2],
+            x = 6;
+
+        function f() {
+            console.log(this.x);
+        }
+        f()
+
+        function b(x, y, z) {
+            arguments[0] = 10;
+            arguments[1].push(3);
+            arguments[2]();
+            undefined
+            y = [];
+            console.log(x, y);
+        }
+        b(a1, a2, f);
+        console.log(a1, a2);
+
+        //4.
+        function fn(i) {
+            return function (n) {
+                console.log(n + (i++));
+            }
+        }
+        var f = fn(10);
+        f(20); 
+        fn(20)(40); 
+        fn(30)(50);
+        f(30);
+    </script>
+</body>
+
+</html>

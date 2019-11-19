@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品排序</title>
+    <link rel="stylesheet" href="./css/sppx.css">
+</head>
+
+<body>
+    <section class="box">
+        <nav id="na">
+            <span>排序</span>
+            <a href="javascript:;" data-name='time'>
+
+                <li class="up"></li>
+                <li class="down"></li>
+                上架时间
+            </a>
+            <a href="javascript:;" data-name='hot'>
+
+                <li class="up"></li>
+                <li class="down"></li>
+                热度
+            </a>
+            <a href="javascript:;" data-name='price'>
+
+                <li class="up"></li>
+                <li class="down"></li>
+                价格
+            </a>
+
+        </nav>
+        <ul class="list" id="ul">
+            <!-- <li>
+                <img src="./img/1.jpg" alt="">
+                <p>商品名称<span>华为</span></p>
+                <p>商品上架<span>2017-12-25</span></p>
+                <p>热度<span>12365</span></p>
+                <p>价格<span>4620</span></p>
+            </li> -->
+        </ul>
+
+    </section>
+</body>
+<script src="tools.js"></script>
+<script>
+    let {
+        log
+    } = console
+    fetch("./json/product.json").then(data => data.json()).then(data => {
+        let newData = data.slice()
+        let render = (data) => {
+            let lis = newData.map(({
+                img,
+                title,
+                time,
+                hot,
+                price
+            }) => {
+                return `<li>
+                <img data-src="${img}" alt="">
+                <p>商品名称<span>${title}</span></p>
+                <p>商品上架<span>${time}</span></p>
+                <p>热度<span>${hot}</span></p>
+                <p>价格<span>${price}</span></p>
+            </li>`
+            }).join("");
+            ul.innerHTML = lis;
+        }
+        render(newData);
+
+        /*
+            可视区的高度+滚动条的距离>=每张图片的绝对位置
+        */
+        const winH = window.innerHeight;
+        let imgLis = document.querySelectorAll("#ul li");
+        let tool = new Tools;
+        let lazyLoad = () => {
+            let winS = window.pageYOffset;
+            imgLis.forEach((item, i) => {
+                let imgT = tool.position(item).t;
+                let num = 50;
+                // log(item.children)
+                if (winH + winS >= imgT && !item.children[0].src) {
+                    item.children[0].src = item.children[0].dataset.src
+                    //效果定时器不能放在条件外，如果定时器放在条件外，不符合条件的其他图片也会加载出来，这样不会出现懒加载效果
+                    setTimeout(() => {
+                        item.children[0].style.opacity = 1
+                    }, num * i)
+                }
+
+            });
+        }
+        window.onscroll = lazyLoad;
+        lazyLoad()
+    })
+</script>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            padding: 100px;
+        }
+
+        #box2 {
+           _position: relative;
+            background: yellow;
+        }
+
+        #box3 {
+            position: absolute;
+            background: tomato;
+        }
+    </style>
+</head>
+
+<body style="height: 2000px;">
+    <div id="box1">
+        <div id="box2">
+            <div id="box3"></div>
+        </div>
+    </div>
+    <script>
+        /* 
+    DOM:获取可视区的高/宽度
+            document.doumentElement.clientHeight
+            document.doumentElement.clientWidth  如果有滚动条，会减去滚动条的宽度
+            document.documentElement.scrollTop 滚动条的距离
+            document.documentElement.scrollLeft
+
+    BOM:获取可视区的高/宽度
+            window.innerHeight
+            window.innerWidth  如果有滚动条，不会减去滚动条的宽度
+
+            window.pageXOffset
+            window.pageYOffset  滚动条的距离
+ */
+
+        /* 
+            element.getBoundingClientRect() //这个方法没有参数
+            {//这些都为只读属性
+              top："元素上边到视窗上边的距离",  绝对位置的offsetTop
+              left：元素左边到视窗左边的距离,  绝对位置的offsetLeft
+              right：元素右边到视窗左边的距离, 
+              bottom：元素下边到视窗上边的距离
+            }
+            它返回的是一个对象，这个对象下放的是元素的绝对位置。
+
+         */
+        let {
+            log
+        } = console
+        log(box3.getBoundingClientRect())
+        log(box3.offsetTop,box3.offsetLeft)
+
+        //可视区窗口
+        log(document.documentElement.clientHeight)//639
+        log(window.innerHeight)//639
+        log(document.documentElement.clientWidth)//737
+        log(window.innerWidth)//754
+
+        //滚动条距离
+        log(document.documentElement.scrollTop);
+        log(document.documentElement.scrollLeft);
+        log(window.pageYOffset)
+        log(window.pageXOffset)
+    </script>
+</body>
+
+</html>

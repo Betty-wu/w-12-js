@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box">
+        <img onerror=src="./img/a.jpg" alt="" id="img">
+    </div>
+<script>
+   /* 
+      图片加载事件：onload(成功) onerror(失败)
+      onload：图片加载成功时，执行
+
+      onerror:图片加载失败时执行，可以设置在行间
+         <img onerror=src="./img/a.jpg" alt="" id="img">
+   */
+
+
+    let img = document.getElementById("img");
+    img.src = "./img/f1.jpg"
+    img.onload = function (){
+       console.log("success")
+    }
+    /* img.onerror = function (){
+        console.log("fail");
+        this.src = "./img/a.jpg"
+    } */
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    /* #box{
+    width: 100px;
+    height: 100px;
+    background: red;
+} */
+
+    #box {
+        width: 200px;
+        height: 200px;
+        background: slateblue;
+        position: absolute;
+        left: 0;
+        top: 0;
+        cursor: move;
+    }
+
+    #box2 {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+        background: lawngreen;
+    }
+</style>
+
+<body style="height: 3000px;">
+    <!-- <div id="box"></div> -->
+    <div id="box"></div>
+    <div id="box2">
+        <button id="btn">按钮</button>
+        <button id="btn2">按钮2</button>
+    </div>
+
+</body>
+<script>
+    /* 可以用（e.constructor==MouseEvent）来判读是否为鼠标事件。是左点击还是右点击有一个button属性可以判断， 鼠标左键为0，中间件为1，右键为2；
+    /* 
+     鼠标右击事件中一般要禁止掉系统本身的右键菜单，在为元素添加新的菜单；
+     在添加右击事件中onclick是不生效的，一般用mousedown或者mouseup事件； 
+    */
+    /* 
+       鼠标事件
+       onmouseup	某个鼠标按键被松开
+       onmousedown	某个鼠标按键被按下
+       onmousemove	鼠标被移动
+       onmouseout	鼠标从某元素移开
+       onmouseover	鼠标被移到某元素之上	
+       onclick	鼠标点击某个对象	
+       ondblclick	鼠标双击某个对象
+    */
+    //禁止系统本身右键菜单
+    // document.oncontextmenu = function(){return false};
+    /* document.getElementById('box').onmousedown = function (e) {
+       // console.log(e);
+        console.log(e.button);
+    } */
+</script>
+<script>
+    let {
+        log
+    } = console;
+    btn2.onclick = function () {
+        log("click")
+    }
+
+    //自定义事件
+
+    function longDown(callBack) {
+        let timer;
+        btn.onmousedown = function () {
+            let time = +new Date();
+            timer = setInterval(() => {
+                let nowTime = +new Date();
+                if (nowTime - time > 1000) {
+                    log("长按事件")
+                    callBack() //钩子函数，声明周期函数
+                }
+            }, );
+        }
+        btn.onmouseup = function () {
+            clearInterval(timer)
+        }
+    }
+    longDown(function () {
+        box.style.background = "pink"
+    })
+
+
+    /*  box.onmousemove = function(e){
+        // log(e)
+        this.style.left = e.clientX - this.clientWidth/2+"px";
+        this.style.top = e.clientY - this.clientHeight/2+"px"
+       
+     } */
+   // window.onmousemove = fn;
+
+    function fn(e) {
+        box.style.left = e.clientX - box.clientWidth / 2 + "px";
+        box.style.top = e.clientY - box.clientHeight / 2 + "px"
+    }
+    window.ondblclick= function () {
+        window.onmousemove = null;
+    }
+    window.onclick = function () {
+        window.onmousemove = fn
+       
+    }
+</script>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 50px;
+            height: 50px;
+            background: orchid;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .box2 {
+            width: 5px;
+            height: 5px;
+            background: seagreen;
+            border-radius: 50%;
+            position: absolute;
+            top: 0px;
+            left: 22px;
+            transition: 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div id="box2"></div>
+    </div>
+    <script>
+        class ChangeKey {
+            constructor(name) {
+                this.box = document.querySelector(name);
+                this.timer = null;
+                this.codeAry = []
+            }
+
+            keyUp() {
+                let that = this
+                window.onkeyup = function () {
+                    that.codeAry = [];
+                    clearInterval(that.timer)
+                }
+            }
+            /* 
+                        keyDown() {
+                            let that = this;
+                            window.onkeydown = function (e) {
+                                console.log(1)
+                                clearInterval(that.timer)
+                                that.timer = setInterval(() => {
+                                    switch (e.keyCode) {
+                                        case 37:
+                                            that.box.style.left = that.box.offsetLeft - 15 + "px";
+                                            break;
+                                        case 39:
+                                            that.box.style.left = that.box.offsetLeft + 15 + "px";
+                                            break;
+                                        case 38:
+                                            that.box.style.top = that.box.offsetTop - 15 + "px";
+                                            break;
+                                        case 40:
+                                            that.box.style.top = that.box.offsetTop + 15 + "px";
+                                    }
+                                }, 20)
+                            }
+                        } */
+
+
+            keyBias() {
+                let that = this;
+                window.onkeydown = function (e) {
+                    clearInterval(that.timer)
+                    that.codeAry.push(e.keyCode)
+                    that.codeAry = [...new Set(that.codeAry)]
+                    that.timer = setInterval(() => {
+                        for (let i = 0; i < that.codeAry.length; i++) {
+                            if (that.codeAry[i] + that.codeAry[i + 1] === 75) {
+                                that.box.style.left = that.box.offsetLeft - 15 + "px";
+                                that.box.style.top = that.box.offsetTop - 15 + "px"
+                            }
+                            if (that.codeAry[i] + that.codeAry[i + 1] === 79) {
+                                that.box.style.left = that.box.offsetLeft + 15 + "px";
+                                that.box.style.top = that.box.offsetTop + 15 + "px";
+                            }
+                        }
+                    }, 20)
+
+                }
+            }
+        }
+        let c = new ChangeKey("#box");
+
+
+        c.keyBias()
+        // c.keyDown()
+        c.keyUp()
+    </script>
+</body>
+
+</html>

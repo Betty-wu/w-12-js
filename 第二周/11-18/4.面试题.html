@@ -11,7 +11,7 @@
 <body>
     <script>
         //1.
-        console.log(a);
+        console.log(a);//函数a
         var a = 12;
 
         function a() {
@@ -20,7 +20,13 @@
         }
         a();
         console.log(a);
-
+  /* 
+  1.
+   第一步：预解析，var a function a,function a 覆盖掉var a，
+   第二部：代码自上而下执行console.log(a)为function a, 
+   第三部：a=12覆盖掉function a,
+   第四部：a为12，number类型，不是函数不能执行，会报错，出现报错，代码不往下执行
+   */
 
         //2.
         var n = 0;
@@ -38,7 +44,12 @@
         var c = a();
         c();
         console.log(n);
+/* 2.
+    第一步：预解析，
 
+
+
+ */
 
         //3.
         var a1 = 4,

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            padding: 100px;
+        }
+
+        #box {
+            background: lightseagreen;
+        }
+
+        #box1 {
+            background: rgb(119, 10, 119);
+        }
+
+        #box2 {
+            background: rgb(86, 86, 187);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div id="box1">
+            <div id="box2">
+                <button id="btn">按钮</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+/* 
+  事件冒泡：从目标元素起，从下往上依次执行直到window的过程叫冒泡
+
+  阻止冒泡 -> *** 目标元素是谁就阻止谁
+    ev.cancelBubble = true  它不是标准，但是所有浏览器都兼容
+    ev.stopPropagation()   它是标准，但是低版本浏览器不兼容
+*/
+
+    box.onclick = function () {
+        alert("box")
+    }
+    box1.onclick = function () {
+        alert("box1")
+    }
+    box2.onclick = function () {
+        alert("box2")
+    }
+    btn.onclick = function (e) {
+        alert("button")
+        //e.cancelBubble = true;
+        e.stopPropagation()
+    }
+    window.onclick = function () {
+        alert("window")
+    }
+</script>
+
+</html>

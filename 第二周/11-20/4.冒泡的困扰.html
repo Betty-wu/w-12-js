@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: tomato;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="btn">显示</button>
+    <div id="box"></div>
+    <script>
+        window.onclick = function () {
+            box.style.display = "none";
+            alert("window")
+        }
+        btn.onclick = function () {
+            box.style.display = "block";
+            alert("显示")
+        }
+        /* 此处事件冒泡行为，当触发btn的click事件也会紧接着触发window的click事件，box的display属性由block紧接着变为none(时间很快)；显示在眼中的就是box没有出现 */
+    </script>
+</body>
+
+</html>

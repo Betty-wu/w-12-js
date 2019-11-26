@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        //1.运用命名空间解决myGquery容易被污染的问题
+        (function (global, factory) {
+            factory(global)
+        })(this, function (flobal, noGlobal) {
+            function myQuery() {
+                console.log(NoGlobal); //undefined
+                
+                 //不能在外面new，但是如果在里面new那么就出现了递归
+   
+                //2.在myQuery中new  myQuery会无限递归，因此找一个替身，这个替身拥有myQuery所有方法和属性
+                return new fn.init;
+            }
+
+            let fn = myQuery.prototype = {
+                verson: "x.x.x",
+                constructor: myQuery,
+                css: function () {
+
+                }
+            }
+            fn.init = function () {
+
+            }
+            /*
+            让$的实例化对象拥有myQuery的方法
+        */
+            fn.init.prototype = myQuery.prototype;
+            window.myQuery = $ = myQuery;
+        })
+
+        /*
+        低版本中undefined会被修改
+    */
+        //    var undefined = 1;
+        //    console.log(undefined); //低版本浏览器下，undefined就是1,undefined容易被修改，所以NoGlobal的意思就是不会被修改的undefined
+    </script>
+</body>
+
+</html>

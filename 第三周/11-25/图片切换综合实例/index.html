@@ -256,6 +256,7 @@
     <script type="text/javascript">
         let arrImg = ['img/img01.jpg', 'img/img02.jpg', 'img/img03.jpg', 'img/img04.jpg'];
         let arrText = ['文字描述一', '文字描述二', '文字描述三', '文字描述四'];
+        let pText = ["图片可以从最后一张跳转到第一张循环切换","图片只能到最后一张或到第一张切换"]
         /*
         <div id="imgBox">
             <span>图片数量计算中……</span>
@@ -266,82 +267,108 @@
             <strong>图片文字加载中……</strong>
         </div>
         */
-        let $imgBox = $("#imgBox");
-        let $span = $("#imgBox span");
-        let $img = $("#imgBox #pic");
-        let $prev = $("#prev");
-        let $next = $("#next");
-        let $strong = $("#imgBox strong");
-        let $orderBtn = $("#orderchange");
-        let $circulBtn = $("#circulchange");
-        let $changeP = $("#tabBox p")
-        let $closeBox = $("#tanBox");
-        let $closeImg = $("#tanBox img");
-        let $closeP = $("#tanBox p");
-        let $closeStrong = $("#tanBox strong");
-        let $closeA = $("#tanBox a");
-        console.log($orderBtn.siblings())
-        let num = 0;
-        let len = arrImg.length;
-        let step = 0;
-
-        function init() {
-            console.log(num)
-            $span.html((num + 1) + "/" + len);
-            $strong.text(arrText[num]);
-            $img.attr("src", arrImg[num])
-        }
-        init()
-
-        $circulBtn.click(function () {
-            $changeP.html("图片可以从最后一张跳转到第一张循环切换")
-            $circulBtn.addClass("active").siblings().removeClass("active");
-            $next.click(function () {
-                num++;
-                num %= len;
-                init()
-            })
-            $prev.click(function () {
-                if (num === 0) {
-                    num = 4
-                }
-                num--;
-                num %= len;
-                init()
-            })
-        })
-        $orderBtn.click(function () {
-            $changeP.html("图片只能切换到第一张或者最后一张")
-            $orderBtn.addClass("active").siblings().removeClass("active");
-            $next.click(function () {
-               
-               if(num<3){
-                num++;
-                init()
+       class ImgChange{
+           constructor(name){
+             this.box = $("#centerBox");
+             this.imgBox = this.box.find("#imgBox");
+             this.span = this.imgBox.find("span");
+             this.img = this.imgBox.find("#pic");
+             this.next = this.imgBox.find("#next");
+             this.prev = this.imgBox.find("#prev");
+             this.imgStrong = this.imgBox.find("strong");
+             this.changeA = this.box.find("#tabBox h2 a");
+             this.changeP = this.box.find("#tabBox p");
+             this.closeBox = this.box.find("#tanBox");
+             this.closeA = this.closeBox.find("a");
+             this.closeE = this.closeBox.find("span");
+             this.num = 0;
+             this.len = arrImg.length;
+             this.onoff = true;//给循环切换和顺序切换一个标志，循环切换时标志为true，顺序切换时，标志为false
+             this. thatA = this.changeA[0];
+           }
+           init(){
+               this.change()
+           }
+           change(){
+               this.span.html((this.num+1)+"/"+this.len);
+               this.img.attr("src",arrImg[this.num]);
+               this.imgStrong.html(arrText[this.num]);
+           }
+           events(){
+               let that = this
+               this.next.click(function(){
+                that.num++;
+               if(that.onoff){
+                that.num%=that.len;
+               }else{
+                 if(that.num>that.len-1){
+                    that.num = that.len -1;
+                    that.closeBox.css("display","block")
+                 }
                }
-               if(num===3){
-                   num=3;
-                   init();
-                   $closeBox.css("display","block")
-               }
-            })
-            $prev.click(function () {
-                console.log(num)
-              if(num>=1){
-                  num--;
-                  init()
-              }
-              if(num===0){
-                init();
-                  num = 0;
+              // console.log( that.num)
+                that.change()
+               });
+               this.prev.click(function(){
+                   that.num--;
+                  if(that.onoff){
+                    if(that.num<0){
+                       that.num = that.len -1
+                   };
+                  }else{
+                      if(that.num<0){
+                          that.num=0;
+                          that.closeBox.css("display","block")
+                      }
+                    
+                  }
                  
-                  $closeBox.css("display","block")
-              }
-            })
-            $closeA.click(function(){
-                $closeBox.css("display","none")
-            })
-        })
+                   that.change()
+               });
+               this.changeA.each((i,ele)=>{
+                  //声明一个thatA作为上一次切换时的按钮，作为比较对象，假设上一次的切换按钮是循环切换
+                  $(ele).click(function(){
+                      $(this).addClass("active").siblings().removeClass("active");
+                      let index = $(this).index()
+                      that.changeP.html(pText[index]);
+                      if(that.thatA!==this){
+                          //1.如果当前点击对象与循环切换不相等，说明是顺序切换，让标志为false
+
+                        /*   console.log(that.thatA)
+                          console.log(this) */
+         /*    thatA    ！==/===   this         that.onoff
+          1.
+          顺序切换(false)   !==     循环切换(true)     false =>true
+          2.              
+          循环切换(true)    !==     顺序切换(false)    true = >false
+          3.              
+          顺序切换(false)   ===     顺序切换(false)    不变
+          4.
+          循环切换(true)    ===       循环切换(true)   不变
+        
+        */
+                          that.onoff = !that.onoff
+                      }
+                    // console.log(that.onoff)
+                      /*  console.log(that.thatA)
+                      console.log( $(this)) */
+                       that.thatA = this;//把当前切换按钮赋值给thatA，作为比较对象，2.如果下一次点击时，仍为循环切换，thatA 与 $(this)相等，thatA仍未为循环切换，that.onoff不变，如果$(this)为顺序切换，与thatA不相等，that.onoff与上一次也不相等，要取反，这样来回切换时，顺序切换一直为false，循环切换一直为true
+                  })
+               })
+               this.closeBox.click(function(){
+                that.closeBox.css("display","none")
+               });
+               this.closeE.click(function(){
+                that.closeBox.css("display","none")
+               })
+            }
+
+           
+       }
+
+       let i = new ImgChange
+       i.init()
+       i.events()
     </script>
 </body>
 

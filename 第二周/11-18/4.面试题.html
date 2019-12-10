@@ -11,78 +11,243 @@
 <body>
     <script>
         //1.
-        console.log(a);//函数a
-        var a = 12;
+        /*   console.log(a); //函数a
+          var a = 12;
 
-        function a() {
-            console.log(a);
-            a = 13;
-        }
-        a();
-        console.log(a);
-  /* 
-  1.
-   第一步：预解析，var a function a,function a 覆盖掉var a，
-   第二部：代码自上而下执行console.log(a)为function a, 
-   第三部：a=12覆盖掉function a,
-   第四部：a为12，number类型，不是函数不能执行，会报错，出现报错，代码不往下执行
-   */
+          function a() {
+              console.log(a);
+              a = 13;
+          }
+          a();
+          console.log(a); */
+        /* 
+        1.
+         第一步：预解析，var a function a,function a 覆盖掉var a，
+         第二部：代码自上而下执行console.log(a)为function a, 
+         第三部：a=12覆盖掉function a,
+         第四部：a为12，number类型，不是函数不能执行，会报错，出现报错，代码不往下执行
+         */
 
         //2.
-        var n = 0;
+        /*  var n = 0;
 
-        function a() {
-            var n = 10;
+         function a() {
+             var n = 10;
 
-            function b() {
-                n++;
-                console.log(n);
-            }
-            b();
-            return b;
-        }
-        var c = a();
-        c();
-        console.log(n);
-/* 2.
-    第一步：预解析，
-
-
-
- */
+             function b() {
+                 n++;
+                 console.log(n);
+             }
+             b();
+             return b;
+         }
+         var c = a(); //11
+         c(); //12
+         console.log(n); //0 */
+        /* 2.
+            第一步：预解析，var n function a（提升并定义） var c,变量名无冲突，因此无覆盖，
+            第二步：代码自上而下执行 n=0, c=函数a执行的返回值，函数a执行，函数内部变量提升 var n function b(提升并定义)，代码自上而下执行，n=10,函数b执行，函数b内n++；运用父函数a的n，形成闭包，作用域不销毁，可以存值，n++后，n为11，输出11；将函数b返回， c接收；
+            第三步：c执行函数b在函数a的作用域内，n取值11，n++后，n为12，输出12；
+            第四步：在全局作用域内输出n,全局作用域中n=0;
+         */
 
         //3.
-        var a1 = 4,
-            a2 = [1, 2],
-            x = 6;
+        /*  var a1 = 4,
+             a2 = [1, 2],
+             x = 6;
 
-        function f() {
-            console.log(this.x);
-        }
-        f()
+         function f() {
+             console.log(this.x);
+         }
+         f()//6
 
-        function b(x, y, z) {
-            arguments[0] = 10;
-            arguments[1].push(3);
-            arguments[2]();
-            undefined
-            y = [];
-            console.log(x, y);
-        }
-        b(a1, a2, f);
-        console.log(a1, a2);
+         function b(x, y, z) {
+             arguments[0] = 10;
+             arguments[1].push(3);
+             arguments[2]();//undefined
+             y = [];
+             console.log(x, y);//10 []
+         }
+         b(a1, a2, f);
+         console.log(a1, a2);//4 [1,2,3] */
+
+        /* 
+          第一步：预解析 var a1,var a2,var x,function f,function b(提升并定义)
+          第二步：代码自上而下执行，a1=4,a2=[1,2],x=6,函数执行，函数f前面没点，且在全局作用域中，因此this为window，window.x=6；输出6
+          第三步：函数b执行，预解析，形参x,y,z，且传了实参=>var x=a1,y=a2,z=f,
+          arguments为函数实参集合且形参与实参为一一对应关系:
+          arguments[0]=10 =>x=10,
+          arguments[1].push(3) = >y.push(3)=>[1,2].push(3)=>[1,2,3]
+          arguments[1] 与a2都指向相同空间地址，因此arguments[1]改变，a2也改变 =>a2=[1,2,3],
+          arguments[2]() =>arguments[2].f(),this指向arguments[2]，arguments[2]中没有x，因此输出undefined
+          y重新赋值为[],因此输出10，[]
+          第四步：函数内部实参传值，a1的值赋值给形参x，函数内部有值，就不改变全局的，因此a1还是4，a2为引用数据类型，arguments[1]与a2共同指向一个空间地址，一个改变另一个也改变=>[1,2,3]
+         */
 
         //4.
-        function fn(i) {
-            return function (n) {
-                console.log(n + (i++));
+        /*   function fn(i) {
+              return function (n) {
+                  console.log(n + (i++));
+              }
+          }
+          var f = fn(10);
+          f(20);//30
+          fn(20)(40);//60
+          fn(30)(50);//80
+          f(30);//41 */
+        /* 
+          第一步：预解析，function fn, var f,无变量名冲突
+          第二步：代码自上而下执行，f=fn(10)的返回值，返回值为一个函数，**形成不销毁作用域**！！，传实参10，**作用域内存值i=10**！！;
+          第三步：f执行，函数f在fn的作用域内，且用到fn的参数i=>20+(10++),后加加是先取值再加加，因此输出30，i=10 => i=11
+          第四步：fn(20)(40)执行,形成新的作用域,作用域内存值 i=20,=>40+(20++),
+          输出60，i=20 =>i=21
+          第五步：同第四步，也形成新的作用域，作用域内存值 i=30, =>50+(30++)
+          输出80， i=30 =>i=31
+          第六步：f(20)和f(30)为相同作用域，此时 i=11，=>30+(11++),输出41，i=12
+         */
+
+        //5.
+     /*    (function () {
+            this.x *= ++x;
+            return function (y) {
+                this.x *= (++x) + y;
+                console.log(x);
+            }
+        })();
+        obj.fn = function (y) { 
+            this.x *= (++x) + y;
+            console.log(x);
+        }
+        var fn = 001
+        obj.fn(6);
+        fn(4) */
+
+        //6.
+         /* var x = 3,//12
+            obj = {
+                x: 5
+            };
+        obj.fn = (function () {
+            this.x *= ++x;
+            return function (y) {
+                this.x *= (++x) + y;//window.x=13
+                console.log(x);
+            }
+        })();
+        var fn = obj.fn;
+        obj.fn(6);
+        fn(4);
+        console.log(obj.x, x);  */
+
+       /* 
+          第一步：预解析，var x, var obj, var fn,变量名无冲突
+          第二步：代码自上而下，x=3,obj={x:5},obj.fn=匿名自执行函数的返回值，匿名自执行函数的this为window，=> 3*=++3,先加加运算，再*=， =>3*4=12,window.x=12
+          第三步：obj.fn(6)执行，this指向的是obj，=>obj.x*=(++12)+6 =>5*19 =>95,obj.x= 95,window.x=13
+          第四步:fn(4)执行，this指向window，13*=(++13)+4 =>13*=18 =>x=234
+          第五步：95，,234
+         */
+
+
+
+        //7.
+        /* function Fn() {
+            this.x = 10;
+            this.y = 20;
+            this.getX = function () {
+                console.log(this.x);
             }
         }
-        var f = fn(10);
-        f(20); 
-        fn(20)(40); 
-        fn(30)(50);
-        f(30);
+        Fn.prototype.y = 40;
+        Fn.prototype = {
+            x: 30,
+            getY: function () {
+                this.y += 1;
+                console.log(this.y);
+            },
+            sum: function () {
+                console.log(this.x + this.y);
+            }
+        };
+        let f1 = new Fn;
+        let f2 = new Fn;
+        console.log(f1.getX === f2.getX);
+        console.log(f1.getY === f2.getY);
+        console.log(f1.constructor);
+        f1.getX();
+        f2.getY()
+        f1.sum(); */
+
+        //8.
+   /*       var F = function () {};
+         Object.prototype.a = function () {
+             console.log('a()')
+         };
+         Function.prototype.b = function () {
+             console.log('b()')
+         };
+         var f = new F();
+         f.a();//"a()"
+        // f.b();//报错
+         F.a();//"a()"
+         F.b();//"b()" */
+
+         /* 
+         
+         
+         
+         
+          */
+
+
+        //9.
+       /*  function A() {
+            alert(1);
+        }
+
+        function Fn() {
+            A = function () {
+                alert(2);
+            };
+            return this;
+        }
+        Fn.A = A;
+        Fn.prototype = {
+            A: () => {
+                alert(3);
+            }
+        };
+        A();//1
+        Fn.A();//1
+        Fn().A();//2
+        new Fn.A();//1
+        new Fn().A();//3
+        new new Fn().A();//报错 */
+
+        //10.
+         var name = "WINDOW",
+             obj = {
+                 name: "OBJ",
+                 fn: (function () {
+                     console.log(this.name);//WINDOW
+                     return function () {
+                         console.log(this.name); 
+                     }
+                 })()
+             },
+             fn = () => {
+                 console.log(this.name);
+             };
+         fn();//WINDOW
+         obj.fn();//OBJ
+         fn.call(obj);//WINDOW
+
+
+        /*  let ff = function () {
+             console.log(this)
+         };
+         let oo = {}
+         oo.ff = ff;
+         oo.ff(); */
     </script>
 </body>
 

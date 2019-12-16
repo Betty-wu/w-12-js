@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let startX = 0,
+            startY = 0,
+            moveX = 0,
+            moveY = 0;
+        //DOM的事件绑定，在某些浏览器模拟器上面是没有效果的，但真机上OK
+        //一般开发的时候使用DOM2的方法绑定，浏览器OK
+        document.addEventListener("ontouchstart", function (ev) {
+            startX = ev.targetTouches[0].pageX;
+            startY = ev.targetTouches[0].pageY;
+        })
+        document.addEventListener("ontouchmove", function (ev) {
+
+        })
+        document.addEventListener("ontouchend", function (ev) {
+
+        })
+    </script>
+</body>
+
+</html>

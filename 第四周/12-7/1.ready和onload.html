@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <video src="https://www.w3school.com.cn//i/movie.ogg" controls></video>
+    <script src="jquery.min.js"></script>
+    <script>
+    /* 
+    onload:静态资源(src)加载完成执行
+
+       1- 加载程度不同，是页面所有元素都加载完毕，包括图片等所有元素。当静态资源比较大，加载慢的时候，影响用户体验
+       2- 执行次数不同，onload只能执行一次，如果有多个，那么第一次的执行会被覆盖。
+       3- 执行速度不同，onload除了要等待DOM被创建还要等到包括大型图片、音频、视频在内的所有外部资源都完全加载。如果加载图片和媒体内容花费了大量时间，用户就会感受到定义在onload事件上的代码在执行时有明显的延迟。
+
+
+    ready:DOM树加载完毕就执行
+    
+       1- 加载程度不同，DOM树加载完毕就执行，不必等到页面中图片或其他外部文件都加载完毕。
+       2- 执行次数不同，document.ready可以写多个.ready，可以执行多次，第N次都不会被上一次覆盖
+       3- 执行速度不同，document.ready函数只需对 DOM 树的等待，而无需对图像或外部资源加载的等待，从而执行起来更快。
+    
+     */
+    
+    //  window.onload = function(){
+    //     alert(1)
+    //  }
+    
+    // $(document).ready(function(){
+    //     alert(2)
+
+    // })
+    //原生的ready高版本浏览器使用
+    document.addEventListener("DOMContentLoaded",function(){
+        alert(1)
+    })
+    //低版本IE浏览器中是通过onreadystatechange事件去监听，监听在IE下只要DOM加载成功，会有一个doScoll("left")的方法，如果没有加载成功，则没有这个方法，会报错，用try监听，catch接收错误
+
+    /* 
+         function ready(){
+             try{
+                 document.documentElement.doScoll("left");
+                 onready(function(){
+                     fn()
+                 })
+
+             }catch{
+                 setTimeOut(ready,500)
+             }
+             
+         }
+    
+    
+    
+     */
+    </script>
+</body>
+</html>

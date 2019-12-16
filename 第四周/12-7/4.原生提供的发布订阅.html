@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        document.addEventListener("upWheel", function () {
+            console.log(this)
+        })
+        document.addEventListener("downWheel", function () {
+            console.log(111)
+        })
+        /* 
+          1.初始化事件 document.createEvent("Event"); 
+                      event.initEvent("事件名", 是否冒泡(true/false), 是否捕获(true/false));
+          2.订阅document.addEventListener()
+          
+          3.发布  document.dispatchEvent(event)
+         */
+
+        let event = document.createEvent("Event");
+        let event2 = document.createEvent("Event");
+        event.initEvent("upWheel", true, false);
+        event2.initEvent("downWheel", true, false);
+        document.onmousewheel = function (ev) {
+            if (ev.wheelDelta > 0) {
+                document.dispatchEvent(event)
+            }
+            document.dispatchEvent(event2)
+        }
+    </script>
+</body>
+
+</html>

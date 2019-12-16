@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">点击</button>
+    <script>
+        /* 
+       发布订阅：
+        模拟一个addEventListener() 
+        
+        订阅过程：给某个元素的事件订阅一个事件函数
+        eg:xx.fn("click",function(){})
+
+        订阅池：就要为一个列表(能够存储多个值的空间)，一般为一个对象，这个对象中存储着相同的事件，而这个事件形成一个事件池[]
+        eg:{
+            click:[function(){},function(){}],
+            listen:[function(){},function(){}]
+        }
+        
+        
+        
+        
+        */
+        /* 
+          1.先看obj是否有订阅池，如果之前有过，那么直接在之前的订阅池中，订阅事件（把事件放到事件池中），如果没有，则创建一个订阅池，在这个订阅池中，订阅事件（形成事件池）
+          2.向事件池中添加事件函数
+            （1）.先看订阅池中是否有这个事件的事件池，如果有，直接向这个事件的事件池添加事件函数，如果没有，则为这个事件创建一个事件池，在把事件函数添加到事件池中
+        
+         */
+        //订阅
+        function addEvent(obj, evName, fn) {
+            obj.subscribe = obj.subscribe || {};
+            obj.subscribe[evName] = obj.subscribe[evName] || [];
+            obj.subscribe[evName].push(fn)
+        }
+
+        addEvent(btn, "click", function () {
+            console.log(1)
+            console.log(this)
+        })
+        addEvent(btn, "click", function () {
+            console.log(2)
+        })
+        addEvent(btn, "over", function () {
+            console.log(1)
+        })
+
+        console.log(btn.subscribe)
+
+        //发布
+        /* 
+           1.先看obj下是否有订阅池和事件池,
+           2.如果有订阅池和事件池，则循环事件池，把事件池中的函数依次执行
+         */
+        function publish(obj, evName) {
+            if (!obj.subscribe || !obj.subscribe[evName]) {
+                return null
+            }
+            obj.subscribe[evName].forEach(item => {
+                item.call(obj)
+            });
+
+        }
+
+
+        //解绑事件池
+        /* 
+          1.先看obj下是否有订阅池和事件池,没有返回null，有则删除
+        
+         */
+        function removeEvent(obj, evName, fn) {
+            if (!obj.subscribe || !obj.subscribe[evName]) {
+                return null
+            }
+            for (let i = 0; i < obj.subscribe[evName].length; i++) {
+                if (obj.subscribe[evName][i] === fn) {
+                    obj.subscribe[evName].splice(i, 1);
+                    break
+                }
+            }
+        }
+
+        document.onclick = function (ev) {
+            // publish(btn, "click")
+            if (ev.target.tagName === "BUTTON") {
+                // console.log(btn.subscribe)
+                publish(btn, "click")
+            }
+        }
+    </script>
+</body>
+
+</html>

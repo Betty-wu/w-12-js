@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">点击</button>
+    <script>
+        class O {
+            constructor() {
+                this.subscribe = {}
+            }
+
+            add(obj, evName, fn) {
+                this.subscribe = this.subscribe || {};
+                this.subscribe[evName] = this.subscribe[evName] || [];
+                this.subscribe[evName].push(fn)
+            }
+
+            publish(obj, evName) {
+                if (!this.subscribe || !this.subscribe[evName]) {
+                    return null
+                }
+                this.subscribe[evName].forEach(item => {
+                    item.call(obj)
+                });
+
+            }
+
+            removeEvent(obj, evName, fn) {
+                if (!this.subscribe || !this.subscribe[evName]) {
+                    return null
+                }
+                for (let i = 0; i < this.subscribe[evName].length; i++) {
+                    if (this.subscribe[evName][i] === fn) {
+                        this.subscribe[evName].splice(i, 1);
+                        break
+                    }
+                }
+            }
+
+        }
+        let o = new O;
+        o.add(btn, "click", function () {
+            console.log(this);
+
+        })
+        o.publish(btn, "click")
+
+
+        // class C {
+        //     constructor() {
+
+        //     }
+        //     s() {
+        //         console.log(1)
+        //         console.log(this)
+
+        //         /*  function f() {
+        //              console.log(this)//undefined 构造函数中使用严格模式
+        //          }
+        //          f() */
+        //     }
+        // }
+        // let c = new C
+        // c.s()
+
+        // function f() {
+        //     "use strict"
+        //     //a = 10 报错，a找不到
+        //     let a = 10
+        //     console.log(this) //undefined 构造函数中使用严格模式
+        // }
+        // f()
+        // f.call(c)
+    </script>
+</body>
+
+</html>

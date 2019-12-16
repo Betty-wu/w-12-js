@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box" style="width: 100px; height: 100px; background: red;position: absolute;top: 0;left: 0; opacity: .5;">
+    </div>
+    <div></div>
+        <a href="http://www.baidu.com" id="A">点击</a>
+   
+    <input type="text" >
+    <!-- <div id="box2" style="width: 100px; height: 100px; background: rgb(0, 255, 64);"></div> -->
+    <script>
+        /* 
+          移动端的300ms延迟问题（点透）
+        
+         1.超过300ms之后再让上层元素消失或偏移
+
+         2.下层元素不使用焦点元素
+
+         3.使用焦点元素，在document身上阻止默认行为，在焦点元素身上添加事件，阻止冒泡
+        
+         */
+        box.ontouchend = function () {
+        //    setTimeout(()=>{
+            this.style.display = "none"
+        //    },305)
+        }
+        document.ontouchend = function(){
+            return false
+        }
+        A.ontouchend = function(ev){
+          ev.cancleBubble =true
+        }
+    </script>
+</body>
+
+</html>

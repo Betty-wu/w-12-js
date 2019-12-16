@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box" style="width: 100px; height: 100px; background: red;"></div>
+    <div id="box2" style="width: 100px; height: 100px; background: rgb(0, 255, 64);"></div>
+    <script>
+        /*  
+       touchstart 手指按下
+       touchmove  手指滑动
+       touchend  手指抬起
+        touchstart和 touchmove 是一套事件，在某个元素上按下，在屏幕的任意位置move或者end都会触发
+       比鼠标事件更快，用户体验佳
+     */
+
+       /*  box.onclick = function () {
+            console.log("click")
+        }
+        box.onmousedown = function () {
+            console.log("down")
+        }
+        box.onmouseup = function () {
+            console.log("up")
+        } */
+        box.ontouchstart = function () {
+            console.log("start1")
+        }
+        box.ontouchend = function () {
+            console.log("end1")
+        }
+        box.ontouchmove = function () {
+            console.log("move1")
+        }
+        box2.ontouchstart = function () {
+            console.log("start2")
+        }
+        box2.ontouchend = function () {
+            console.log("end2")
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .active {
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="btn1 active">11</button>
+    <button class="btn2">22</button>
+    <button class="btn3">33</button>
+    <script>
+        let btn = document.querySelectorAll("button");
+        let b = btn[0]
+        let x =0,y =0;
+        btn.forEach((item, i) => {
+            item.ontouchstart = function (ev) {
+                x= ev.changedTouches[0].pageX;
+                y = ev.changedTouches[0].pageY
+            }
+
+            item.ontouchend = function (ev) {
+                let endX = ev.changedTouches[0].pageX;
+                let endY = ev.changedTouches[0].pageY;
+                if(Math.abs(endX-x)>20||Math.abs(endY-y)>10)return
+
+                b.className = ''
+                this.className = "active";
+                b = this
+            }
+        })
+    </script>
+</body>
+
+</html>

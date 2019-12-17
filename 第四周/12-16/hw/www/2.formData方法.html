@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* FormData的主要用途有两个：
+         1、将form表单元素的name与value进行组合，实现表单数据的序列化，从而减少表单元素的拼接，提高工作效率。
+         2、异步上传文件 */
+    let {log,dir} = console
+    //初始化一个FormData实例
+    let fd = new FormData()
+
+    //增加
+    fd.append("user","apple");
+    fd.append("age",10);
+    fd.append("user","orange")
+    //获取 get()获取key为xx的第一个值,getAll()获取key为xx的所有值,返回值为一个数组
+    log(fd.get("user"))//aplle
+    log(fd.getAll("user"))//["apple", "orange"]
+    //设置 通过set(key, value)来设置修改数据,key的值不存在，会添加一条数据,key的值存在，会修改对应的value值
+    fd.set("user","pear");
+    log(fd.get("user"))//pear,把key值相同的都修改了
+    fd.set("color","red")
+    log(fd.get("color"))//red
+    //删除
+    fd.append("color","yellow")//["red", "yellow"]
+    log(fd.getAll("color"))
+    fd.delete("user")
+    log(fd.delete("user"))//undefined
+    log(fd.delete("color"))//把key值相同的都删除了
+    log(fd.getAll("color"))//[]
+    </script>
+</body>
+</html>

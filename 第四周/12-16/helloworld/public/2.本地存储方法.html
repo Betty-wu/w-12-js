@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /* 
+     页面刷新之后,页面上还有数据(数据不变)
+
+     方法:1.刷新之后请求一次数据
+        
+          2.把数据存储在浏览器中
+              -1.cookie(后端技术,基于浏览器实现,一般后端操作,前段亦可以种cookie):用来存储用户的操作信息
+              一次http请求(例如填写用户名密码),http是无状态的,不能记录某人登录操作信息,服务器无法识别是哪个浏览器发出请求,也不知道是哪个用户操作,后端只知道该请求是否合法,所以可以利用cookie取存储用户的操作信息,下一次请求的时候,把cookie存储的信息发给后端,就能记录用户是否登陆过
+              
+              -2. localStorage 专门为前端准备的本地存储
+
+              -3.sessionStorage
+    
+     */
+      
+      //读cookie
+      console.log(document.cookie)//''空字符串,当中上cookie之后,''会变成cookie
+      //写cookie
+        document.cookie="name=apple"
+        document.cookie="age=1"
+        console.log(document.cookie)//name=apple; age=1
+     // 读操作需要注意的是，一次读取会把当前域名下的所有cookie都获取出来格式为'key=val; key2=val2',分号后面有空格
+
+     /* 
+         cookie的生命周期
+            默认的生命周期是当浏览器关闭，生命就结束
+             cookie必须使用服务器环境
+
+            如果不想走默认的生命周期使用 expires
+            expires=需要设置的时间 
+
+            cookie，在以前每个域名只能设置几个或者几十个，字字千金，现在据说有5M
+      */
+
+      let time= new Date()
+      time.setDate(time.getDate()+1)
+      document.cookie="name=apple;expires="+time;
+
+      //cookie封装
+      setCookie('name','xxoo',{
+        setTime:{
+            date:10
+        }
+    });
+
+
+
+      //1.设置cookie
+      function setCookie(key,val,time){
+          if(time){
+              let t = new Date;
+              let s;
+              let prop;
+              //console.log(time.setTime)
+              for(let attr in time.setTime){
+                  //console.log(attr[0])
+                 s= attr[0].toUpperCase()+attr.substr(1);
+                 prop = attr
+              }
+              //console.log(new Date()["get"+s]()+time.setTime[prop])=>newDate().getDate()(或者是getMonth,根据s的值设置)
+              t["set"+s](new Date()["get"+s]()+time.setTime[prop])
+
+              document.cookie = key+"="+value+";expires="+t
+          }else{
+            document.cookie = key+"="+value
+          }
+      }
+
+    //2.获取cookie
+    //name="apple"; age=1
+    function getCookie(key){
+        let c = document.cookie;
+        let val;
+        c.split(";").forEach(item=>{
+            let ary = item.split("=");
+            if(ary[0]===key){
+                val = ary[1]
+            }
+        })
+        return val
+    }
+
+    //3.删除cookie
+
+    function removeCookie(key,val){
+      setCookie(key,val,{setTime:{data:-1}})
+    }
+    </script>
+</body>
+</html>

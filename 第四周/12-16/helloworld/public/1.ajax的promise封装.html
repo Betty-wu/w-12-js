@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    注册的用户名:<input id="user" type="text" /><span id="s"></span> </br>
+    注册的密码:<input type="password" id="pw" />
+    <button id="btn">提交</button>
+    <script>
+          user.onblur = function(){
+             
+        ajax('/get?user='+this.value)
+        .then(d=>{
+            console.log(1)
+            console.log(d);
+        });
+    }
+        function ajax(url, obj) {
+            return new Promise(function (resolve, reject) {
+                let myObj = obj || {}; //obj传参myObj为obj,没传参为{}
+                let defaultObj = {
+                    method: 'get',
+                    body: '',
+                    headers: '',
+                    async: true,
+                    dataType: 'json',
+                    timeout: 10000,
+                    ontimeout: function () {}
+                }
+                /* if(Object.keys(myObj).length > 0){
+                  defaultObj = Object.assign(myObj)
+                }  如果myObj的空间地址指向obj,则把myObj的值赋值给defaultObj */
+                  for(let attr in myObj){
+                      defaultObj[attr] = myObj[attr]//如果myObj为空对象,则该循环不执行,如果myObj的空间地址指向obj,则把myObj的值赋值给defaultObj
+                  }
+                  myObj = defaultObj//如果myObj为空对象,则把defaultObj(默认值)的空间地址赋值给myObj,如果myObj不是空对象,(在上面循环时,这两个对象的值都一样),让defaultObj的空间地址覆盖一下myObj的空间地址
+              
+                let len = arguments.length;
+                let xhr = new XMLHttpRequest;
+                if(myObj.async===true){
+                    xhr.timeout = myObj.timeout;
+                    xhr.ontimeout = myObj.ontimeout
+                }
+
+                function ready(){
+                    if(myObj.async===true){
+                       xhr.onreadystatechange = function(){
+                           if(xhr.readyState===4){
+                            successOrFail()
+                           }
+                       }
+                    }else{
+                        successOrFail()
+                    }
+
+                }
+
+                function successOrFail(){
+                    if(/(20[0-7]|(30[14]))/.test(xhr.status)){
+                        if(myObj.dataType==="json"){
+                            resolve(eval("("+xhr.responseText+")"))
+                        }else if(myObj.dataType==="xml"){
+                            resolve(xhr.responseXML)
+                        }
+                    }else{
+                        reject(xhr.status)
+                    }
+                } 
+
+                if(len===1){
+                    ready();
+                    xhr.open("get",url,true);
+                    xhr.send()
+                }else if(len===2){
+                    if(/^get$/i.test(myObj.method)){
+                          ready();
+                          url = myObj.body?url+"?"+myObj.body:(url.includes("?")?url:url+"?")
+                          xhr.open("get",url+"myrandom="+Date.now,myObj.async);
+                          xhr.send()
+                    }else if(/^post$/i.test(myObj.method)){
+                        ready();
+                        xhr.open("post",url,myObj.async);
+                        for(let attr in myObj.headers){
+                            if(myObj.headers.hasOwnproperty(attr)){
+                                xhr.setRequestHeader(attr,myObj.headers[attr])
+                            }
+                        }
+                        xhr.send(myObj.body)
+                    }
+                }
+ 
+
+
+
+
+
+
+
+
+
+            })
+        }
+    </script>
+</body>
+
+</html>

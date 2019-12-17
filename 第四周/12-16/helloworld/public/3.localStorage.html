@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+    localStorage 用于长久保存整个网站的数据，保存的数据没有过期时间，直到手动去删除
+     localStorage 会可以将第一次请求的数据直接存储到本地，这个相当于一个 5M 大小的针对于前端页面的数据库，相比于 cookie 可以节约带宽，但是这个却是只有在高版本的浏览器中才支持的。
+    localStorage 只支持 string 类型的存储。
+    localStorage 属性是只读的。
+     */
+
+ // const {setItem,getItem,removeItem} = localStorage; //解构使用this会为window,所以不能解构使用
+
+        window.localStorage
+        //保存数据语法：
+        let l = localStorage.setItem("key", "value");
+
+        //读取数据语法：
+        let lastname = localStorage.getItem("key");
+
+        //删除数据语法：
+         console.log(lastname)//value
+        let d = localStorage.removeItem("key");
+        console.log(d)//undefined
+
+        //全部清除
+         localStorage.clear()
+    </script>
+</body>
+
+</html>

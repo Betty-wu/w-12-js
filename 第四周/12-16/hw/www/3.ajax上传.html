@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+        #box  {
+            width: 0%;
+            height: 5px;
+            background: limegreen;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" name="image" id="file" multiple>
+    <button id="btn">上传</button>
+    <div id="box">
+        <div></div>
+    </div>
+    <script>
+        btn.onclick = function () {
+            let xhr = new XMLHttpRequest;
+            xhr.open("post", "/upload");
+            let f = new FormData();
+            console.dir(file.files)
+            console.dir(xhr) //xhr对象里面有个upload(上传)方法,该方法里面有个onprogress(进度方法)
+            //ev.total  文件的总体积
+            //ev.loaded 当前文件上传的体积
+
+            //  ev.loaded / ev.total  = 0-1
+            xhr.upload.onprogress = function (ev) {
+                box.style.width = (ev.loaded / ev.total) * 100 + '%';
+                console.log(ev);
+            }
+            f.append("image", file.files[0]);
+            xhr.send(f);
+            xhr.onload = function () {
+                console.log(xhr.responseText)
+            }
+        }
+    </script>
+</body>
+
+</html>

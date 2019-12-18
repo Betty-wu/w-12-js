@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+     /* onstorage:兄弟页面才能触发:同一个浏览器，同一个域名，不同的tab */
+     window.localStorage.setItem("user","pear")
+    document.onclick = function(){
+        window.localStorage.setItem("user","apple")
+    }
+    window.onstorage = function(){
+        console.log(1)
+    }
+    
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+    BOM，Browser Object Model，即浏览器对象模型。浏览器页面初始化时，会在内存创建一个全局对象，用来描述当前窗口的属性和状态，这个全局对象被称为浏览器对象模型。BOM让JavaScript能够和浏览器“对话”。
+     浏览器对象模型
+            基本不兼容
+            window.innerHeight  浏览器的高度
+            window.pageYoffset  滚动条的距离  只能读不能写
+            window.scrollTo(x,y) 设置滚动条距离 
+
+    BOM有一个核心对象window，window对象包含了6大核心模块，分别是：
+
+    document对象，即文档对象
+
+    frames，即HTML自框架
+
+    history，即页面的历史记录
+
+    location，即当前页面的地址
+
+    navigator，包含浏览器相关信息
+
+    screen，用户显示屏幕相关属性
+     */
+
+        let {
+            log,
+            dir
+        } = console
+        log(window.document);
+        dir(location)
+        /* 
+        ancestorOrigins: DOMStringList {length: 0}
+        assign: ƒ assign()
+        hash: ""//#xx=YY&zz=aa 哈希值(锚信息),修改哈希不会刷新页面,浏览器可以后退和前进,当hash变化时会触发onhashchange事件
+        host: "127.0.0.1:5500"//域名和端口号(隐藏)
+        hostname: "127.0.0.1"//域名
+        href: "http://127.0.0.1:5500/1.BOM.html"//路径
+        origin: "http://127.0.0.1:5500"//源
+        pathname: "/1.BOM.html"//接口
+        port: "5500"//端口(隐藏)
+        protocol: "http:"//协议
+        reload: ƒ reload()//刷新页面
+        replace: ƒ ()
+        search: "" ?ss=aa&dd=ww#xx=YY&zz=aa,?->#之间的参数,参数改变会刷新页面
+        toString: ƒ toString()
+        valueOf: ƒ valueOf()
+        Symbol(Symbol.toPrimitive): undefined
+        __proto__: Location
+         */
+        /* 当切换路由的时候会从后端的静态资源中查找需要传资源到前台，后端跳转路由会刷新页面
+                    这样会影响用户体验，所以使用hash来充当跳路由的动作来请求资源，这样一来第一能够成功请求
+                    资源，二来，不刷新页面
+                    
+
+                    window.navigator.userAgent  用户的内核信息（字符串）（注意的是容易被模拟） */
+        /* ajax没有历史记录,所谓的不安全 */
+
+        window.Navigator.userAgent
+        let i = 0;
+        hash.onclick = function () {
+            window.location.hash = "page=" + i++; //写,hash改变时不刷新页面
+            console.log(window.location.hash) //读
+        }
+
+        window.onhashchange = function () {
+            console.log(1)
+        }
+
+        search.onclick = function () {
+            window.location.search = "w=pq" + i++ //search改变时刷新页面
+            console.log(window.location.search)
+        }
+
+        /* window.navigator.userAgent  用户的内核信息（字符串）（注意的是容易被模拟） */
+
+        if (/chrome/i.test(window.navigator.userAgent) && /windows/i.test(window.navigator.userAgent)) {
+            box.style.background = 'red';
+        } else if (/firefox/i.test(window.navigator.userAgent)) {
+            box.style.background = 'green';
+        } else if (/iphone/i.test(window.navigator.userAgent)) {
+            box.style.background = 'yellow';
+        } else if (/android/i.test(window.navigator.userAgent)) {
+            box.style.background = 'skyblue';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <button>1111</button>
+    <button>2222</button>
+    <button>3333</button>
+    <p id="p">第一张图片</p>
+
+    <input type="button" value="后退" id="btn" />
+    <script>
+        let btns = document.querySelectorAll("button");
+        let hash = window.location.hash;
+        let ary = ["图片一", "图片二", "图片三"];
+        let index=0;
+        if (hash) {//如果有hash值直接让p的内容,随着hash值显示
+           // console.log(window.location.hash.match(/page\/(\d)/))
+            index = window.location.hash.match(/page\/(\d)/)[1];
+            p.innerHTML = ary[index];
+        }else{//如果一开始没有hash值直接设置为"page/" + 0
+            window.location.hash = "page/" + 0
+        }
+        btns.forEach((item, i) => {
+            item.onclick = function () {
+               
+                window.location.hash = "page/" + i;
+                p.innerHTML = ary[i];
+            }
+        })
+        window.onhashchange = function () {
+            //console.log(window.location.hash.match(/page\/(\d)/))
+            index = window.location.hash.match(/page\/(\d)/)[1]
+            p.innerHTML = ary[index]
+        }
+
+        btn.onclick = function () {
+            index--;
+            if (index < 0) {
+                index = 0
+            }
+            window.location.hash = "page/" + index
+        }
+        //让p的内容随着hash的变化而变化
+    </script>
+</body>
+
+</html>

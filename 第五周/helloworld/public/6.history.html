@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>1111</button>
+    <button>2222</button>
+    <button>3333</button>
+    <p id="p">第一张图片</p>
+
+    <input type="button" value="后退" id="btn" />
+    <script>
+        /* history:
+            浏览器的历史记录，能够使用前进后退，还可以伪造一个url地址并且不刷新页面
+
+            back 返回
+            forward 前进
+            go(1) 前进 -1后退
+            pushState 记录url状态的
+            replaceState 替换记录
+
+            [/a,/b,/d,/e]
+
+            pushState(数据,null,伪造的url)
+
+            注意:伪造的url如果没有服务端配合，那么是不能刷新页面，不然一刷新又去找服务器，最后会报404
+ */
+
+        let ary = ["图片一", "图片二", "图片三"];
+        let btns = document.querySelectorAll("button");
+        btns.forEach((item, i) => {
+            item.onclick = function(){
+                p.innerHTML = ary[i];
+                window.history.pushState({num:i},"","http://localhost:88/6.history.html"+i)
+            }
+        })
+        btn.onclick = function(){
+            window.history.go(-1)
+        }
+ /* 
+        window.onpopstate是popstate事件在window对象上的事件处理程序.
+
+每当处于激活状态的历史记录条目发生变化时,popstate事件就会在对应window对象上触发. 如果当前处于激活状态的历史记录条目是由history.pushState()方法创建,或者由history.replaceState()方法修改过的, 则popstate事件对象的state属性包含了这个历史记录条目的state对象的一个拷贝.
+
+调用history.pushState()或者history.replaceState()不会触发popstate事件. popstate事件只会在浏览器某些行为下触发, 比如点击后退、前进按钮(或者在JavaScript中调用history.back()、history.forward()、history.go()方法).
+
+当网页加载时,各浏览器对popstate事件是否触发有不同的表现,Chrome 和 Safari会触发popstate事件, 而Firefox不会.
+        
+        */
+    window.onpopstate = function(e){
+        console.log(e)
+        p.innerHTML = ary[e.state.num]
+    }
+    </script>
+</body>
+
+</html>

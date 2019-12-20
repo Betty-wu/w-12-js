@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function MyPromise(executor) {
+            let that = this;
+            that.sValue = undefined; //成功的参数,初始为undefined
+            that.fValue = undefined; //失败的参数,初始为undefined
+            that.status = pending; //初始状态为pending
+
+            that.sCb = []; //成功事件池
+            that.fCb = []; //失败事件池
+
+            function fulfilled(svalue) {
+                if (that.status === "pending") { //当状态为pending时才可以改变
+                    that.status = "resolved";
+                    that.sValue = svalue;
+                    that.sCb.forEach(item => {
+                        item()
+                    });
+                }
+
+            }
+
+            function rejected(fvalue) {
+                if (that.status === "pending") { //当状态为pending时才可以改变
+                    that.status = "rejected";
+                    that.sValue = fvalue;
+                    that.fCb.forEach(item => {
+                        item()
+                    });
+                }
+            }
+
+
+            try { //executor函数中的代码有可能出错,如果出错就执行rejected函数
+                executor(fulfilled, rejected)
+            } catch (error) {
+                rejected(error)
+            }
+            //executor函数中的代码有同步也有异步代码,利用订阅发布,给成功和失败分别建事件池
+
+        }
+
+
+        MyPromise.prototype.then = function (res, rej) {
+            let that = this;
+            //为了链式调用.then内部要返回一个promise实例
+            let p = new MyPromise(function (res2, rej2) {
+                if (that.status === "resolved") {
+                    try {
+                        let x = res(that.sValue); //第一个then返回值就是第二次then的参数
+                        res2(x)
+                    } catch (error) { //如果上一个then里面出错继续走下一个then
+                        res2(that.sValue)
+                    }
+                    if (that.status === "rejected") {
+                        try {
+                            let x = rej(that.fValue);
+                            rej2(x)
+                        } catch (error) { //如果上一个then里面出错继续走下一个then
+                            rej2(that.fValue)
+                        }
+                    }
+
+                    //异步状态下,先把事件分别订阅到各自事件池中,达到条件时触发
+
+                    if (that.status === "pending") {
+                        that.sCb.push(function () { //事件不能直接执行,用函数包一下
+                            try {
+                                let x = res(that.sValue);
+                                res2(x)
+                            } catch (error) {
+                                if (typeof res === "function") {
+                                    rej2(that.fValue)
+                                } else {
+                                    res(that.sValue)
+                                }
+                            }
+                        })
+
+                        tath.fCb.push(function () {
+                            try {
+                                let x = rej(that.fvalue);
+                                rej2(x);
+                            } catch (error) {
+                                rej2(fvalue);
+                            }
+                        })
+                    }
+                }
+            })
+
+            return p
+        }
+
+
+
+
+
+
+
+
+
+
+
+        new MyPromise(function (resolve, reject) {
+            resolve(1)
+        }).then(function () {
+
+        })
+    </script>
+</body>
+
+</html>

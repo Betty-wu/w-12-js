@@ -51,6 +51,8 @@
             d.forEach(e=>{
                 render(e)
             })
+
+           
         })
         
         submit.onclick = function () {
@@ -95,6 +97,13 @@
                 </p>
             </div>`+div1.innerHTML;
         }
+        
+        div1.onclick = function(){
+            fetch("/api/weibo?act=like&id=id").then(d=>d.json()).then(d=>{
+                console.log(d)
+            })
+        }
+
     </script>
 </body>
 

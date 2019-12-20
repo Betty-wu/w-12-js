@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let xhr = new XMLHttpRequest;
+        xhr.open("get", "/proxy");
+        xhr.onload = function () {
+            console.log(xhr.responseText)
+        }
+        xhr.send()
+        //app.js服务开启,app3.js服务开启
+    </script>
+</body>
+
+</html>

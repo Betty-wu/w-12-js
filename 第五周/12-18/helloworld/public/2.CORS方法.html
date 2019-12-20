@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    let xhr = new XMLHttpRequest;
+    xhr.open('get','http://localhost:8080/kuayu?name=hh');  
+    xhr.onload = function(){
+        console.log(xhr.responseText)
+    }
+    xhr.send();
+    //发请求访问时,(app.js)80端口的服务要开启,(app2.js)访问的8080端口的服务也要开启
+    </script>
+</body>
+</html>

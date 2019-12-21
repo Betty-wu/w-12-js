@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="send">发送</button>
+    <button id="abort">中断</button>
+    <script>
+    /* 
+    如果该请求已被发出，XMLHttpRequest.abort() 方法将终止该请求。会触发onabort事件,当一个请求被终止，它的 readyState 属性将被置为0（ UNSENT ),不许传参,没有返回值
+    
+    
+    
+    */
+
+        let xhr = new XMLHttpRequest;
+        send.onclick = function () {
+            xhr.open('get', '/sleep?name=lilei');
+            xhr.send();
+            xhr.onload = function () {
+                console.log(xhr.responseText)
+            }
+            xhr.onabort = function () {
+                console.log("中断")
+            }
+        }
+        abort.onclick = function () {
+            console.log(xhr.abort())//undefined
+        }
+    </script>
+</body>
+
+</html>

@@ -39,71 +39,96 @@
         </div>
     </div>
     <script>
-
-    /*
+        /*
         只要是ajax请求，优先把数据打印出来看看
     */
 
         //显示该page页时,让留言都显示出来,先请求一次数据,渲染页面,接口文件中获取weibo留言数据的接口为"/api/weibo?act=get&&page=1"
-        fetch("/api/weibo?act=get&&page=1").then(d=>d.json()).then(d=>{
-            //console.log(d)
-            d.reverse();//让最新留言显示在最上面
-            d.forEach(e=>{
-                render(e)
-            })
+        fetch("/api/weibo?act=get&&page=1").then(d => d.json()).then(d => {
+            console.log(d)
+            d.reverse(); //让最新留言显示在最上面
+            d.forEach((e,i) => {
+                // console.log(e)
+                render(e);
 
-           
+                div1.onclick = function (ev) {
+                    // console.log(d)
+                    let a = document.querySelectorAll(".top");
+                   // console.log(a)
+                   a.forEach((item,index)=>{
+                    if (ev.target === item) {
+                        console.log(ev.target)
+                         console.log(item,index,i)
+                        fetch("/api/weibo?act=like&id=" + e.id).then(data => data.json()).then(
+                            data => {
+                                if (data.code === 0) {
+
+                                    e.like += 1
+                                    ev.target.innerText = e.like
+                                    console.log(e)
+                                }
+                                // console.log(data)
+
+                            })
+                    }
+                   })
+                }
+
+
+
+
+
+            })
         })
-        
+
         submit.onclick = function () {
             ///api/weibo?act=add&content=马马马马
             let val = text.value;
             //添加存储用户的留言信息,接口api/weibo?act=add&content=马马马马,数据添加成功之后才渲染页面
-           fetch("api/weibo?act=add&content="+val).then(d=>d.json()).then(d=>{
-               //console.log(d)
-               if(d.code===0){
-                d.content = val;//添加的数据对象中没有content属性,给它添加一个,匹配接口的content,render时也需要这个属性
-                render(d);
-                text.value=""
-               }
-           })
+            fetch("api/weibo?act=add&content=" + val).then(d => d.json()).then(d => {
+                if (d.code === 0) {
+                    d.content = val; //添加的数据对象中没有content属性,给它添加一个,匹配接口的content,render时也需要这个属性
+                    render(d);
+                    text.value = "";
+                }
+            })
         }
-        function addZero(n){
+
+        function addZero(n) {
             //2018-09-08 16:37:60
-          return n<10?"0"+":"+n:""+n
+            return n < 10 ? "0" + ":" + n : "" + n
         }
-        function render(d){
-           let t = new Date(d.time);
-           /* 如果在使用服务器时间的时候，发现设置的时间为1970，直接*1000,因为服务器时间是以秒来计算的 */
-           //console.log(t)//Tue Dec 17 2019 21:14:29 GMT+0800 
-           
-           let year = t.getFullYear()
-           let month = t.getMonth()+1;
-           let day = t.getDate();
-           let hour = t.getHours();
-           let minutes = t.getMinutes();
-           let second = t.getMinutes();
-//2018-09-08 16:37:60
-           div1.innerHTML = `
+
+        function render(d) {
+            let t = new Date(d.time);
+            /* 如果在使用服务器时间的时候，发现设置的时间为1970，直接*1000,因为服务器时间是以秒来计算的 */
+            //console.log(t)//Tue Dec 17 2019 21:14:29 GMT+0800 
+
+            let year = t.getFullYear()
+            let month = t.getMonth() + 1;
+            let day = t.getDate();
+            let hour = t.getHours();
+            let minutes = t.getMinutes();
+            let second = t.getMinutes();
+            //2018-09-08 16:37:60
+            div1.innerHTML = `
             <div class="reply">
                 <p class="replyContent">${d.content}</p>
                 <p class="operation">
                     <span class="replyTime">${year}-${month}-${day} ${addZero(hour)}:${addZero(minutes)}:${second}</span>
                     <span class="handle">
-                        <a href="javascript:;" class="top">0</a>
+                        <a href="javascript:;" class="top">${d.like}</a>
                         <a href="javascript:;" class="down_icon">0</a>
                         <a href="javascript:;" class="cut">删除</a>
                     </span>
                 </p>
-            </div>`+div1.innerHTML;
-        }
-        
-        div1.onclick = function(){
-            fetch("/api/weibo?act=like&id=id").then(d=>d.json()).then(d=>{
-                console.log(d)
-            })
-        }
+            </div>` + div1.innerHTML;
 
+            //console.log(d)
+
+
+
+        }
     </script>
 </body>
 

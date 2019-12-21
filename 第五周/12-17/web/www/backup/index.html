@@ -51,7 +51,7 @@
             }).then(d=>d.json()).then(d=>{
               if(d.code ===0){
                   alert("恭喜注册成功");
-                  window.location.href = "/";////根路径,默认走index.html
+                  window.location.href = "/";//根路径,默认走index.html
               }else if(d.code===1){
                   alert("用户名已被占用")
               }

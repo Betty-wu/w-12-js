@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div id="box"></div> -->
+
+    用户名: <input type="text" name="" id="txt">
+    密码: <input type="password" name="" id="pw">
+    <button id="btn">注册</button>
+    <script>
+        txt.onblur = async function () {
+            let data = await fetch("/post", {
+                body: "username=" + this.value,
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded"
+                },
+                method: "post"
+            }).then(d => d.json());
+            console.log(data)
+        }
+    </script>
+</body>
+
+</html>

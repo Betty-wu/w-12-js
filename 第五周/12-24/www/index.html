@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #box {
+            width: 300px;
+            height: 300px;
+            margin: 100px auto;
+            background: lightcyan;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        button {
+            width: 150px;
+            height: 25px;
+            line-height: 25px;
+        }
+
+        #mask {
+            width: 150px;
+            height: 50px;
+            background: rgb(236, 234, 110);
+            color: #fff;
+            font-size: 900;
+            line-height: 50px;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            top: -60px;
+            margin: 0 auto;
+
+        }
+
+        .active {
+
+            background: lightblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mask"></div>
+    <div id="box">
+        <div><span>用户:</span> <input type="text" id="user" placeholder="请输入用户名" autocomplete="off"></div>
+        <div><span> 密码 :</span> <input type="password" id="pw"></div>
+        <button id="regi" data-flag=true>注册</button>
+        <button id="login" data-flag=false>登录</button>
+    </div>
+    <!-- 静态资源文件设置www,把axios.js复制到www中,再引用 -->
+    <script src="axios.js"></script>
+    <script>
+        let btns = document.querySelectorAll("button");
+        let index = 0;
+
+
+        function maskB(val) {
+            mask.innerHTML = val;
+            mask.style.top = "0px"
+            setTimeout(() => {
+                mask.style.top = " -60px"
+            }, 2000)
+        }
+        btns.forEach((item, i) => {
+            item.onclick = async function () {
+                btns[index].classList.remove("active");
+                this.classList.add("active");
+                index = i
+                if (item.dataset.flag === "true") {
+                    console.log(1)
+                    let v = user.value.trim(); //保证value不是空字符串
+                    let v1 = pw.value.trim()
+                    console.log(v, v1)
+                    if (v && v1) {
+                        let data = await fetch("/register", {
+                            method: "post",
+                            headers: {
+                                "content-type": "application/x-www-form-urlencoded"
+                            },
+                            body: new URLSearchParams({
+                                id: Date.now(),
+                                user: v,
+                                pw: v1
+                            })
+                        }).then(d => d.json())
+                        // console.log(data)
+                        if (data.code === 1) {
+                            maskB(data.msg)
+                        } else if (data.code === 0) {
+                            maskB(data.msg)
+                        }
+                    } else {
+                        maskB("请正确输入参数")
+                    }
+                }
+                if(item.dataset.flag ==="false"){
+                    let v = user.value.trim(); //保证value不是空字符串
+                    let v1 = pw.value.trim()
+                    if(v&&v1){
+                        let data = await axios.post("/login","user="+v+"&"+"pw="+v1,).then(d=>d.data)
+                        if(data.code===1){
+                            maskB(data.msg)
+                        }else if(data.code===0){
+                            maskB(data.msg)
+                        }
+                    }else{
+                        maskB("请核对用户信息")
+                    }
+                }
+            
+            
+            }
+        })
+
+
+        user.onblur = async function () {
+            let v = this.value.trim(); //保证value不是空字符串
+            if (v) {
+                let data = await fetch("/getname", {
+                    method: "post",
+                    headers: {
+                        "content-type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({
+                        id: Date.now(),
+                        user: v,
+                    })
+                }).then(d => d.json())
+                if (data.code === 1) {
+                    maskB(data.msg)
+                } else if (data.code === 0) {
+                    maskB(data.msg)
+                } else if (data.code === 2) {
+                    maskB(data.msg)
+                }
+            } else {
+                maskB("请正确输入")
+            }
+        }
+        /* regi.onclick = async function () {
+
+
+        } */
+    </script>
+</body>
+
+</html>

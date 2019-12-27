@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #img{
+            display: none;
+        }
+        /* #box{
+            _display: none;
+        }
+        #btn3,#btn1,#btn2{
+            display: none;
+        } */
+        </style>
+</head>
+<body>
+    登录:<input type="text" id="user"/>
+    
+    <hr />
+
+    <div id="box">
+        <button id="btn1">按钮1</button>
+        <button id="btn2">按钮2</button>
+        <button id="btn3">按钮3</button>
+    </div>
+
+
+    <img id="img" src="./1.gif" alt="" srcset="">
+    <script src="./axios.js"></script>
+    <script>
+    //拦截器种loading,interceptors是全局的
+    axios.interceptors.request.use(config=>{
+        img.style.display = "block";
+        console.log(config)
+        /* axios.get("/getary").then(({data})=>{
+            console.log(data)
+        }) */
+        return config
+    })
+    //响应回来loading消失
+    axios.interceptors.response.use(response=>{
+        img.style.display = "none";
+        console.log(response)
+        return response;
+    })
+    btn2.onclick = function(){
+        axios.get('/getary').then(d=>{
+            console.log(d);
+        });
+    }
+    let instance = axios.create();//创建一个axios的实例,不走拦截器,直接请求
+    btn3.onclick = function(){
+        instance.get("/noloading").then(({data})=>{
+            console.log(data)
+        })
+    }
+    </script>
+</body>
+</html>

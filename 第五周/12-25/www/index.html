@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #img {
+            display: none;
+        }
+
+        #box {
+            _display: none;
+        }
+
+        #btn3,
+        #btn1,
+        #btn2 {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    登录:<input type="text" id="user" />
+
+    <hr />
+
+    <div id="box">
+        <button id="btn1">按钮1</button>
+        <button id="btn2">按钮2</button>
+        <button id="btn3">按钮3</button>
+    </div>
+
+
+    <img id="img" src="./1.gif" alt="" srcset="">
+    <script src="./axios.js"></script>
+    <script>
+        //拦截器 在进行请求验证之前拦截验证身份
+        axios.interceptors.request.use(config => {
+            img.style.display = "block";
+            //console.log(config)
+            if (config.url === "/getary") {
+                let type = localStorage.getItem("type") //进行权限验证
+                if (type >= 1) {
+                    return config
+                } else {
+                    console.log("权限不够");
+                    config.url = ""; //直接破坏url,不让请求
+                }
+            }
+            return config
+        }, error => {
+            return Promise.reject(error)
+        })
+
+        axios.interceptors.response.use(response => {
+            img.style.display = "none";
+            // console.log(response)
+            let {
+                type
+            } = response.data;
+            if (type !== undefined) {
+                if (type === 1) {
+                    btn1.style.display = "inline-block";
+                } else if (type === 2) {
+                    btn1.style.display = btn2.style.display = "inline-block";
+                } else if (type >= 3) {
+                    btn1.style.display = btn2.style.display = btn3.style.display = "inline-block";
+                }
+                localStorage.setItem("type", type) //为了请求的时候判断权限级别，可以通过权限判断用户是否能够访问接,将身份权限存到本地
+            } else {
+                localStorage.removeItem("type") //没有权限就删除级别
+            }
+            return response;
+        }, error => {
+            return Promise.reject(error)
+        })
+        user.onblur = function () {
+            console.log(1)
+            axios.post("/login2", {
+                user: this.value
+            }).then(({
+                data
+            }) => {
+                console.log(data)
+            })
+        }
+        btn1.onclick = function () {
+            axios.post("/login", {
+                user: "apple"
+            }).then(d => {
+                console.log(d)
+            })
+        }
+        btn2.onclick = function () {
+            axios.get('/getary').then(d => {
+                console.log(d);
+            });
+        }
+        let instance = axios.create();
+        instance.interceptors.response.use(response => {
+            if (response.data.code === 100) {
+                location.href = '/';
+            } else {
+                return response;
+            }
+        });
+        btn3.onclick = function () {
+            instance.get("/noloading").then(({
+                data
+            }) => {
+                console.log(data)
+            })
+        }
+    </script>
+</body>
+
+</html>

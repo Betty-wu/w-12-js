@@ -1,0 +1,26 @@
+/* @p:1px;
+.bg(@a){
+    background: @a;
+}
+.w(@a){
+    width: @a*@p;
+}
+.h(@a){
+    height: @a*@p;
+}
+body{
+    .bg(yellowgreen)
+}
+#box{
+    .w(100);
+    .h(100);
+    .bg(pink);
+} */
+body {
+  background: pink;
+}
+#box {
+  width: 100px;
+  height: 100px;
+  background: yellowgreen;
+}

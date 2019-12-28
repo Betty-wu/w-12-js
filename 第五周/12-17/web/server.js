@@ -3,7 +3,7 @@ let bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const app = express();
-
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
 
 //静态文件托管

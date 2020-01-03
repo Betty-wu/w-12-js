@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box{
+        width: 100px;
+        height: 100px;
+        background:lightcoral;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="box" :style="{left:l+'px',top:t+'px'}" @mousedown=down></div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+    let vm = new Vue({
+        el:"#app",
+        data:{
+            l:0,
+            t:0
+        },
+        methods: {
+            down(e){
+            let startX = e.pageX - this.l,
+                startY = e.pageY - this.t;
+             // console.log(this)
+             //let that = this;
+             document.onmousemove = (e)=>{
+                //console.log(this)
+                this.l = e.pageX - startX;
+                this.t = e.pageY - startY;
+             },
+             document.onmouseup = ()=>{
+                  document.onmousemove = document.onmouseup= null
+             }
+            }
+        },
+    })
+    
+    
+    
+    </script>
+</body>
+</html>

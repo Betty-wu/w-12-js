@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <pc></pc>
+        <input type="text" v-focus value="1234">
+    </div>
+    <template id="box">
+        <div>
+            <span>我是模板,{{msg}}</span>
+        </div>
+
+    </template>
+    <script src="vue.js"></script>
+    <script>
+        let pc = {
+            template: `#box`,
+            data() {
+                return {
+                    msg: "you know?"
+                }
+            },
+        }
+        /* Vue.directive("focus",{
+            inserted:function(el){
+               el.select()
+            }
+        }) */
+        let vm = new Vue({
+            el: "#app",
+            data: {
+
+            },
+            components: {
+                pc
+            },
+            directives: {
+                focus: {
+                    inserted: function (el) {
+                        el.select()
+                    }
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>

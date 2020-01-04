@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <span>我是父组件</span><br>
+        <button>按钮{{num}}</button>
+        <hr>
+       <pa :sole="num" :name="name"></pa>
+    </div>
+    <template id="box">
+        <div>
+          <span>我是子组件</span><br>
+          <span>{{name}}</span><br>
+          <button >按钮{{sole}}</button>
+        </div>
+    </template>
+    <script src="vue.js"></script>
+    <script>
+        let pa = {
+            template: `#box`,
+           // props:["sole"]
+           props:{
+               sole:{
+                   type:Number,
+                   default:0
+               },
+               name:{
+                   type:String,
+                   required:true,
+                   validator:function(value){
+                    return /[\u4e00-\u9fa5]+/.test(value)
+                   }
+               }
+           }
+
+        }
+        let vm = new Vue({
+            el: "#app",
+            data: {
+               num:1,
+               name:"花"
+            },
+            components: {
+                pa
+            }
+        })
+    </script>
+</body>
+
+</html>

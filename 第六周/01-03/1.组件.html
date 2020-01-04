@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <pa></pa>
+        <pb></pb>
+        <pc></pc>
+    </div>
+    <template id="box">
+       <div> 
+        <span>我是模板,{{msg}}</span>
+        <pb></pb>
+       </div>
+       
+    </template>
+    <script src="vue.js"></script>
+    <script>
+    let pa = {
+        template:`<div>我是一</div>`
+    }
+    let pb = {
+        template:`<div>我是二</div>`
+    }
+    let pc = {
+        template:`#box`,
+        data(){
+            return {
+                msg:"you know?"
+            }
+        },
+        components:{
+            pb
+        }
+    }
+    
+    let vm = new Vue({
+        el:"#app",
+        data:{
+
+        },
+        components:{
+            pa,pb,pc
+        }
+    })
+    
+    
+    </script>
+</body>
+</html>

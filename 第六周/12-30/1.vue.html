@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .dis {
+            width: 100px;
+            height: 100px;
+            background: lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- innerText -->
+        <div v-text=str1></div>
+        <!-- innerHTML -->
+        <div v-html=str></div>
+        <!-- display css属性 -->
+        <div v-show=flag class="dis">{{str1}}</div>
+        <!-- 元素直接销毁/重建 -->
+        <div v-if=flag1>{{str2}}</div>
+        <div v-else>{{"哈哈"}}</div>
+        <div>
+            <!-- 绑定点击事件 -->
+            <button v-on:click="click">按钮一</button>
+            <!-- 绑定缩写 -->
+            <button @click = "click">按钮二</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                str1: "呵呵",
+                str: "<p>哈哈</p>",
+                str2: "ok",
+                flag: true,
+                flag1: false,
+            },
+            methods: {
+              click (){
+                 console.log(1)
+              }
+            }
+        })
+        /* setTimeout(()=>{
+            vm.flag = false
+        },2000) */
+        setTimeout(() => {
+            vm.flag1 = true
+        }, 3000)
+    </script>
+</body>
+
+</html>

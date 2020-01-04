@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <span>我是父组件</span><br>
+        <button @click=add>按钮{{num}}</button>
+        <hr>
+        <pa :sole="num" :name="name" @transmit="fn"></pa>
+    </div>
+    <template id="box">
+        <div>
+            <span>我是子组件</span><br>
+            <span>{{name}}</span><br>
+            <button @click="add">按钮{{num}}</button>
+        </div>
+    </template>
+    <script src="vue.js"></script>
+    <script>
+        let pa = {
+            template: `#box`,
+            data(){
+                return {
+                    num:this.sole
+                }
+            },
+            // props:["sole"]
+            props: {
+                sole: {
+                    type: Number,
+                    default: 0
+                },
+                name: {
+                    type: String,
+                    required: true,
+                    validator: function (value) {
+                        return /[\u4e00-\u9fa5]+/.test(value)
+                    }
+                }
+            },
+            methods: {
+                add(){
+                    this.num+=3
+                    this.$emit("transmit",this.num)
+                }
+            },
+
+        }
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                num: 1,
+                name: "花"
+            },
+            methods: {
+                fn(val){
+                    this.num=val//如果父元素本身传参,第一个参数就是父元素的参数,如果父元素没传参,那么,第一个参数会是子元素$emit的第二个参数,如果都不传,为undefined
+                },
+                add(){
+                    this.num++
+                }
+            },
+            components: {
+                pa
+            }
+        })
+    </script>
+</body>
+
+</html>

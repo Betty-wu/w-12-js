@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+   
+    
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input v-model.lazy.trim=val type="text" />
+        <hr>
+        <textarea>{{val}}</textarea>
+        <input type="checkbox" v-model="checked">
+        <span>{{checked}}</span>
+        <div>
+        <span>水果</span>
+         <input type="checkbox" value="apple" name="fruit" v-model=ary>apple
+         <label for="apple"></label>
+         <input type="checkbox" value="pear" name="fruit" v-model=ary>pear
+         <label for="pear"></label>
+         <input type="checkbox" value="orange" name="fruit" v-model=ary>orange
+         <label for="orange"></label><br>
+         <span>水果篮
+             <li v-for="item in ary">{{item}}</li>
+         </span>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                val: "",
+                checked:false,
+                ary:[]
+            }
+        })
+    </script>
+</body>
+
+</html>

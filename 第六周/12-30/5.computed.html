@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <p>{{val.split("").reverse().join("")}}</p> -->
+        <!-- <input type="text" v-model=num> -->
+        <!-- <p>{{reverse}}</p>
+        <p>{{add}}</p> -->
+        <input type="text" v-model=fullName>
+        <hr>
+        <p>{{fullName}}</p>
+        <p>{{fName}}</p>
+        <p>{{lName}}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+    let vm = new Vue({
+        el:"#app",
+        data:{
+          fName:"Clinton",
+          lName:"William",
+        //   ary:[]
+
+        },
+        
+        computed: {
+         /*    reverse(){
+              return this.val.split("").reverse().join("")
+            },
+            add(){
+               return ++this.num
+            } */
+        fullName:{
+            get(){
+                 return this.fName+this.lName
+            },
+            set(val){
+                console.log(val)
+                let ary = val.split(' ');
+                    this.fName = ary[0];
+                    this.lName = ary[ary.length-1];
+            }
+        }
+        
+        },
+    })
+    
+    </script>
+</body>
+</html>

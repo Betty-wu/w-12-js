@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <button v-for="(item,index) in ary" @click="click(index)">{{item}}</button>
+            <div id="box" v-for="(item,index) in ary1" v-show="index===flag">{{item}}</div>
+        </div>
+        <ul>
+            <li v-for="(val,key) in obj">
+                <span>{{key}}</span>
+                <span>{{val}}</span>
+            </li>
+        </ul>
+        <div>
+            <p v-for="val in num" >{{val}}</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                ary: ["按钮一", "按钮二", "按钮三"],
+                ary1: [1111, 2222, 3333],
+                flag: 0,
+                obj: {
+                    name: "apple",
+                    age: 1,
+                    color: "red"
+                },
+                num:"12345"
+            },
+            methods: {
+                click(num) {
+                    this.flag = num
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

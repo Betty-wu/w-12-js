@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>todos</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body>
+    <section class="todoapp">
+        <div>
+            <header class="header">
+                <h1>todos</h1>
+                <input class="new-todo" @change.enter="add" v-model="value" placeholder="请输入内容">
+            </header>
+            <section class="main">
+                <input class="toggle-all" type="checkbox" v-model=all @click.stop="select">
+                <ul class="todo-list">
+                    <li v-for="({id,txt,checked},index) in setAry" :class="checked?'completed':'active'" ref=id
+                        @dblclick.prevent.stop="alter">
+                        <div class="view">
+                            <input class="toggle" type="checkbox" v-model=checked>
+                            <label >{{txt}}</label>
+                            <button class="destroy"></button>
+                        </div>
+                        <!-- edit -->
+                        <input  @keyup.esc=restore  v-model=txt @blur=blur
+                        class="edit" />
+                    </li>
+                </ul>
+            </section>
+            <footer class="footer">
+                <span class="todo-count">
+                    <strong>{{num}}</strong>
+                    <span>条未选中</span>
+                </span>
+                <ul class="filters" @click="fn">
+                    <li>
+                        <a href="#/all" :class="hash==='#/all'?'selected':''">全部</a>
+                    </li>
+                    <li>
+                        <a href="#/unchecked" :class="hash==='#/unchecked'?'selected':''">未选中</a>
+                    </li>
+                    <li>
+                        <a href="#/checked" :class="hash==='#/checked'?'selected':''">已选中</a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // editing completed
+        // editing ''
+        // ''
+        //completed
+
+        new Vue({
+            el: '.todoapp',
+            data: {
+                ary: [{
+                        id: 0,
+                        txt: '哈哈',
+                        checked: true,
+                        onoff: false
+                    },
+                    {
+                        id: 1,
+                        txt: '呵呵',
+                        checked: false,
+                        onoff: false
+                    }
+                ],
+                value: "",
+                flag: true,
+                hash: "#/all"
+            },
+            
+            methods: {
+                add(e) {
+                    this.ary.push({
+                        id: Date.now(),
+                        txt: this.value,
+                        checked: false,
+                        onoff: false
+                    });
+                    this.value = ""
+                },
+                select(e) {
+                    this.ary.forEach(item => {
+                        item.checked = e.target.checked
+                    })
+                },
+                fn() {
+                    this.hash = window.location.hash
+                    window.onhashchange = (e) => {
+                        this.hash = window.location.hash
+                    }
+                },
+               
+                alter(e) {
+                    if (e.target.className !== "toggle-all" && e.target.className !== "toggle") {
+                        this.$refs.id.forEach((item, index) => {
+                            if (e.target.parentNode.parentNode === item) {
+                                this.cn = item.className
+                                item.className = "editing";
+                                this.focus(e);
+                            }
+                        })
+                    }
+
+                },
+                focus(e) {
+                    if (e.target.tagName === "INPUT") {
+                        e.target.select()
+                    } else if (e.target.tagName === "LABEL") {
+                        e.target.parentNode.nextElementSibling.select()
+                    }
+                },
+                restore(e) {
+                    if (e.target.parentNode.tagName === "LI") {
+                        e.target.parentNode.className = this.cn
+                    }
+                },
+                blur(e){
+                    console.log(e.target.parentNode.firstChild.innerText)
+                    e.target.parentNode.firstChild.innerText = e.target.value
+                }
+
+            },
+            computed: {
+                setAry() {
+                    switch (this.hash) {
+                        case "#/all":
+                            return this.ary;
+                            break;
+                        case "#/unchecked":
+                            return this.ary.filter(item => !item.checked)
+                            break;
+                        case "#/checked":
+                            return this.ary.filter(item => item.checked)
+                    }
+                },
+                num() {
+                    console.log(this.setAry)
+                    return this.setAry.filter(item => !item.checked).length
+                },
+                all: {
+                    get() {
+                        return this.setAry.every(item => item.checked)
+                    },
+                    set(val) {
+                        // this.flag = val
+                    }
+                }
+            },
+         watch: {
+             ary:{
+                handler(nv,ov){
+                  console.log(nv,ov)
+                },
+                deep:true
+
+             }
+         },
+        })
+    </script>
+</body>
+
+</html>

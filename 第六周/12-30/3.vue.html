@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box{
+        width: 100px;
+        height: 100px;
+        background: lightcoral;
+    }
+    #sole{
+        width: 50px;
+        height: 50px;
+        background: lightgreen;
+    }
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <input type="text" v-model=val>
+            <button @click="click(1,$event)">发送</button>
+        </div>
+        <ul>
+            <li v-for="item in ary">{{item}}</li>
+        </ul>
+
+        <div id="box" @click="box">
+            <div id="sole" @click.stop="sole"></div>
+        </div>
+        <div>
+            <!-- 阻止默认行为 -->
+            <input type="text" @mousedown.prevent="down">
+            <!-- 按enter键发送,修饰符enter/13 -->
+            <!-- <input type="text" @change.enter="change" v-model=val> -->
+            <input type="text" @change.13="change" v-model=val>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+     let vm = new Vue({
+         el:"#app",
+         data:{
+             ary:[],
+             val:""
+         },
+         methods:{
+             click(a,b){
+                 console.log(a,b)
+                 this.ary.push(this.val)
+             },
+             box(e){
+                 alert(1)
+             },
+             sole(e){
+                // e.cancelBubble=true
+                 alert(2)
+             },
+             change(){
+              this.ary.push(this.val)
+             }
+         }
+     })
+    
+    
+    </script>
+</body>
+</html>
